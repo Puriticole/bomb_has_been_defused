@@ -21,7 +21,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
+#include <stdbool.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -32,6 +33,10 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define UI 1 
+#define BUFFER_SIZE 10
+#define PI 3
+#define DELAY_DEBOUNCE 300
+#define SEED 1234
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -50,7 +55,10 @@ TIM_HandleTypeDef htim11;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-
+uint16_t adcData[2];
+uint32_t buttonElapsed[4] = {0,0,0,0};
+uint32_t seed;
+bool seedInitialized = false;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -63,7 +71,7 @@ static void MX_TIM2_Init(void);
 static void MX_TIM9_Init(void);
 static void MX_TIM11_Init(void);
 /* USER CODE BEGIN PFP */
-
+void ledUpdate(uint16_t adcValue, TIM_HandleTypeDef *htim, uint32_t Channel);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -106,7 +114,10 @@ int main(void)
   MX_TIM9_Init();
   MX_TIM11_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_Base_Start_IT(&htim2);
+  HAL_TIM_PWM_Start(&htim11, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_2);
+  printf("Starting\r\n");
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -463,7 +474,67 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+int __io_putchar(int ch) {
+    ITM_SendChar(ch);
+    return ch;
+}
 
+void randomGLC() {
+    const uint32_t a = 1664525;
+    const uint32_t c = 1013904223;
+    const uint32_t m = 2^32; // 2^32
+
+    seed = (a * (seed) + c) % m;
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
+	if (htim->Instance == TIM2){
+		HAL_ADC_Start_DMA(&hadc, (uint32_t*)adcData, 2);
+
+		//printf("la data est : [%03x;%03x]\r\n",(unsigned int) adcData[1],(unsigned int)adcData[0]);
+
+		ledUpdate(adcData[0], &htim9,  TIM_CHANNEL_2);
+		ledUpdate(adcData[1], &htim11, TIM_CHANNEL_1);
+
+		randomGLC();
+	}
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+	switch (GPIO_Pin){
+	case BTN_1_Pin:
+			if (HAL_GetTick() > (buttonElapsed[0] + DELAY_DEBOUNCE)){
+				printf("btn 1\r\n");
+				buttonElapsed[0] = HAL_GetTick();
+			}
+			break;
+	case BTN_2_Pin:
+			if (HAL_GetTick() > (buttonElapsed[1] + DELAY_DEBOUNCE)){
+				printf("btn 2\r\n");
+				buttonElapsed[1] = HAL_GetTick();
+			}
+			break;
+	case BTN_3_Pin:
+			if (HAL_GetTick() > (buttonElapsed[2] + DELAY_DEBOUNCE)){
+				printf("btn 3\r\n");
+				buttonElapsed[2] = HAL_GetTick();
+			}
+			break;
+	case BTN_4_Pin:
+			if (HAL_GetTick() > (buttonElapsed[3] + DELAY_DEBOUNCE)){
+				printf("btn 4\r\n");
+				buttonElapsed[3] = HAL_GetTick();
+			}
+			break;
+	default:
+		break;
+	}
+}
+
+void ledUpdate(uint16_t Data,TIM_HandleTypeDef *Timer, uint32_t Channel){
+	uint16_t pwmValue = Data * 0xFFFF / 0xFFF;
+	__HAL_TIM_SET_COMPARE(Timer,Channel,pwmValue);
+}
 /* USER CODE END 4 */
 
 /**
