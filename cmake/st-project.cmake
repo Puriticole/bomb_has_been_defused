@@ -88,6 +88,7 @@ target_sources(
     "Drivers\\STM32L1xx_HAL_Driver\\Src\\stm32l1xx_hal_tim.c"
     "Drivers\\STM32L1xx_HAL_Driver\\Src\\stm32l1xx_hal_uart.c"
     "Drivers\\STM32L1xx_HAL_Driver\\Src\\stm32l1xx_hal.c"
+    "startup_stm32l152xe.s"
 )
 
 add_custom_command(
