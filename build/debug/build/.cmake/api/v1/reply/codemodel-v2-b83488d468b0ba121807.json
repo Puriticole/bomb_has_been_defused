@@ -1,0 +1,59 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "bomb_has_been_defused",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "bomb_has_been_defused::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bomb_has_been_defused-Debug-1035cb98a6b9fccd6fe2.json",
+					"name" : "bomb_has_been_defused",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/cedri/OneDrive/Bureau/travail/ISEN/S9/STM32_9/bomb_has_been_defused/build/debug/build",
+		"source" : "C:/Users/cedri/OneDrive/Bureau/travail/ISEN/S9/STM32_9/bomb_has_been_defused"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 2
+	}
+}

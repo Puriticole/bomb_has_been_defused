@@ -13,3 +13,53 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64
 
 !ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2023-11-20 21:28:16.435
 !MESSAGE Started RMI Server, listening on port 41338
+!SESSION 2023-11-23 10:13:07.704 -----------------------------------------------
+eclipse.buildId=Version 1.13.2
+java.version=17.0.6
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=fr_FR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2023-11-23 10:13:16.996
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2023-11-23 10:13:17.002
+!MESSAGE Log4j2 initialized with config file C:\Users\cedri\OneDrive\Bureau\travail\ISEN\S9\STM32_9\bomb_has_been_defused\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2023-11-23 10:13:52.700
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.core.jobs 2 2 2023-11-23 10:13:56.917
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: org.eclipse.ui.internal.Workbench$39
+!SESSION 2023-11-23 10:14:07.430 -----------------------------------------------
+eclipse.buildId=Version 1.13.2
+java.version=17.0.6
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=fr_FR
+Framework arguments:  C:\Users\cedri\OneDrive\Bureau\travail\ISEN\S9\STM32_9\bomb_has_been_defused\.project
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 C:\Users\cedri\OneDrive\Bureau\travail\ISEN\S9\STM32_9\bomb_has_been_defused\.project
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2023-11-23 10:14:15.741
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2023-11-23 10:14:15.746
+!MESSAGE Log4j2 initialized with config file C:\Users\cedri\OneDrive\Bureau\travail\ISEN\S9\STM32_9\bomb_has_been_defused\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2023-11-23 10:14:43.683
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2023-11-23 10:19:03.358 -----------------------------------------------
+eclipse.buildId=Version 1.13.2
+java.version=17.0.6
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=fr_FR
+Framework arguments:  C:\Users\cedri\OneDrive\Bureau\travail\ISEN\S9\STM32_9\bomb_has_been_defused\.cproject
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 C:\Users\cedri\OneDrive\Bureau\travail\ISEN\S9\STM32_9\bomb_has_been_defused\.cproject
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2023-11-23 10:19:22.991
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2023-11-23 10:19:22.998
+!MESSAGE Log4j2 initialized with config file C:\Users\cedri\OneDrive\Bureau\travail\ISEN\S9\STM32_9\bomb_has_been_defused\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2023-11-23 10:19:51.042
+!MESSAGE Started RMI Server, listening on port 41337
