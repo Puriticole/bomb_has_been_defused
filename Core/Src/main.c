@@ -31,8 +31,20 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
+//Define pour l'afficheur 7segments
 #define SPI_TIMEOUT 1000
 #define TIME_GAME 20
+
+
+//Define pour le MP3 - a utilise avec la fonction void play_track(uint8_t track_nb);
+#define BIP 1
+#define SOUND_START_BOMB 2
+#define BOMB_DEFUSED 3
+#define BOMB_EXPLODED 4
+#define SOUND_PUSH_BUTTON 5
+#define BOMB_HAS_BEEN_PLANTED 6
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -44,7 +56,9 @@
 SPI_HandleTypeDef hspi1;
 
 TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim10;
 
+UART_HandleTypeDef huart4;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
@@ -58,13 +72,23 @@ static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_TIM2_Init(void);
+static void MX_TIM10_Init(void);
+static void MX_UART4_Init(void);
 /* USER CODE BEGIN PFP */
+
+//Fonction afficheur 7 segments
 void BCD_SendCommand(uint8_t addr, uint8_t data);
 void BCD_Init(uint16_t time_in_second);
 void BCD_SetDigit(uint8_t digit, uint8_t value);
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
 int BCD_updateClock(uint16_t time_in_second);
 void secondToClockDisplay(uint16_t time_in_second);
+
+//Fonction MP3
+void play();
+void play_track(uint8_t track_nb);
+
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -103,12 +127,19 @@ int main(void)
   MX_USART2_UART_Init();
   MX_SPI1_Init();
   MX_TIM2_Init();
+  MX_TIM10_Init();
+  MX_UART4_Init();
   /* USER CODE BEGIN 2 */
 
-	HAL_TIM_Base_Start_IT(&htim2);
+	HAL_TIM_Base_Start_IT(&htim2); //timer 7 segments
+  HAL_TIM_Base_Start_IT(&htim10); //timer bip-bip
+
+  //Debug
 	printf("Startuuuu\r\n");
 
 	BCD_Init(time_in_second);
+
+  play_track(BOMB_HAS_BEEN_PLANTED);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -245,6 +276,77 @@ static void MX_TIM2_Init(void)
   /* USER CODE BEGIN TIM2_Init 2 */
 
   /* USER CODE END TIM2_Init 2 */
+
+}
+
+/**
+  * @brief TIM10 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM10_Init(void)
+{
+
+  /* USER CODE BEGIN TIM10_Init 0 */
+
+  /* USER CODE END TIM10_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+
+  /* USER CODE BEGIN TIM10_Init 1 */
+
+  /* USER CODE END TIM10_Init 1 */
+  htim10.Instance = TIM10;
+  htim10.Init.Prescaler = 999;
+  htim10.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim10.Init.Period = 31999;
+  htim10.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim10.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim10) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim10, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM10_Init 2 */
+
+  /* USER CODE END TIM10_Init 2 */
+
+}
+
+/**
+  * @brief UART4 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_UART4_Init(void)
+{
+
+  /* USER CODE BEGIN UART4_Init 0 */
+
+  /* USER CODE END UART4_Init 0 */
+
+  /* USER CODE BEGIN UART4_Init 1 */
+
+  /* USER CODE END UART4_Init 1 */
+  huart4.Instance = UART4;
+  huart4.Init.BaudRate = 9600;
+  huart4.Init.WordLength = UART_WORDLENGTH_8B;
+  huart4.Init.StopBits = UART_STOPBITS_1;
+  huart4.Init.Parity = UART_PARITY_NONE;
+  huart4.Init.Mode = UART_MODE_TX_RX;
+  huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart4.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN UART4_Init 2 */
+
+  /* USER CODE END UART4_Init 2 */
 
 }
 
@@ -416,11 +518,26 @@ void BCD_SetDigit(uint8_t digit, uint8_t value){
 	}
 }
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	if (htim->Instance == TIM2){
-		time_in_second = BCD_updateClock(time_in_second);
-	}
+void play(void){
+  uint8_t array[4] = {0xAA, 0x02, 0x00, 0xAC};
+  HAL_UART_Transmit(&huart4, array, sizeof(array), 1000);
 }
+
+void play_track(uint8_t track_nb){
+  uint8_t array[6] = {0xAA, 0x07, 0x02, 0x00, track_nb, 0xB3+track_nb};
+  HAL_UART_Transmit(&huart4, array, sizeof(array), 1000);
+}
+
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
+  if (htim->Instance == TIM2){
+    time_in_second = BCD_updateClock(time_in_second);
+  }
+  if (htim->Instance == TIM10){
+     play_track(BIP);
+   }
+}
+
 
 
 int __io_putchar(int ch) {
