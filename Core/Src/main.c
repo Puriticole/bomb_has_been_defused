@@ -363,10 +363,7 @@ void BCD_Init(uint16_t time_in_second){
 		diz_seconds = seconds/10;
 		seconds = seconds%10;
 	}
-
-	//Debug
-	printf("diz minutes %i        minutes%i     diz_seconds%i     seconds%i \r\n",diz_minutes, minutes,diz_seconds,seconds);
-
+  
 	BCD_SendCommand(0x01,diz_minutes);
 	BCD_SendCommand(0x02,minutes);
 	BCD_SendCommand(0x03,diz_seconds);
