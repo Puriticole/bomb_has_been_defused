@@ -667,20 +667,6 @@ void randomGLC() {
 // endregion
 
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	if (htim->Instance == TIM2){
-		HAL_ADC_Start_DMA(&hadc, (uint32_t*)adcData, 2);
-		//printf("la data est : [%03x;%03x]\r\n",(unsigned int) adcData[1],(unsigned int)adcData[0]);
-
-		ledUpdate(adcData[0], &htim9,  TIM_CHANNEL_2);
-		ledUpdate(adcData[1], &htim11, TIM_CHANNEL_1);
-
-		randomGLC();
-
-    time_in_second = BCD_updateClock(time_in_second);
-	}
-}
-
 void ledUpdate(uint16_t Data,TIM_HandleTypeDef *Timer, uint32_t Channel){
 	uint16_t pwmValue = Data * 0xFFFF / 0xFFF;
 	__HAL_TIM_SET_COMPARE(Timer,Channel,pwmValue);
@@ -816,6 +802,22 @@ void BCD_SetDigit(uint8_t digit, uint8_t value){
 void secondToClockDisplay(uint16_t time_in_second){
 
 }
+
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
+  if (htim->Instance == TIM2){
+    HAL_ADC_Start_DMA(&hadc, (uint32_t*)adcData, 2);
+    //printf("la data est : [%03x;%03x]\r\n",(unsigned int) adcData[1],(unsigned int)adcData[0]);
+
+    ledUpdate(adcData[0], &htim9,  TIM_CHANNEL_2);
+    ledUpdate(adcData[1], &htim11, TIM_CHANNEL_1);
+
+    randomGLC();
+
+    time_in_second = BCD_updateClock(time_in_second);
+  }
+}
+
 // endregion
 /* USER CODE END 4 */
 
