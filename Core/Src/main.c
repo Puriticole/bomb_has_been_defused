@@ -569,7 +569,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : B1_Pin BTN_4_Pin BTN_3_Pin */
   GPIO_InitStruct.Pin = B1_Pin|BTN_4_Pin|BTN_3_Pin;
@@ -577,12 +577,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PA8 */
-  GPIO_InitStruct.Pin = GPIO_PIN_8;
+  /*Configure GPIO pin : SPI1_NSS_Pin */
+  GPIO_InitStruct.Pin = SPI1_NSS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_Init(SPI1_NSS_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : BTN_1_Pin BTN_2_Pin */
   GPIO_InitStruct.Pin = BTN_1_Pin|BTN_2_Pin;
@@ -606,7 +606,8 @@ int __io_putchar(int ch) {
     ITM_SendChar(ch);
     return ch;
 }
-
+// Fonction random
+// region[rgba(49, 120, 80, 0.2)]
 void randomGLC() {
     const uint32_t a = 1664525;
     const uint32_t c = 1013904223;
@@ -615,21 +616,30 @@ void randomGLC() {
     seed = (a * (seed) + c) % m;
 }
 
+// endregion
 
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	if (htim->Instance == TIM2){
 		HAL_ADC_Start_DMA(&hadc, (uint32_t*)adcData, 2);
-
 		//printf("la data est : [%03x;%03x]\r\n",(unsigned int) adcData[1],(unsigned int)adcData[0]);
 
 		ledUpdate(adcData[0], &htim9,  TIM_CHANNEL_2);
 		ledUpdate(adcData[1], &htim11, TIM_CHANNEL_1);
 
 		randomGLC();
+
+    time_in_second = BCD_updateClock(time_in_second);
 	}
 }
 
+void ledUpdate(uint16_t Data,TIM_HandleTypeDef *Timer, uint32_t Channel){
+	uint16_t pwmValue = Data * 0xFFFF / 0xFFF;
+	__HAL_TIM_SET_COMPARE(Timer,Channel,pwmValue);
+}
+
+// Gestion des boutons
+// region[rgba(0, 0, 255, 0.1)]
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	switch (GPIO_Pin){
 	case BTN_1_Pin:
@@ -660,20 +670,17 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 		break;
 	}
 }
+// endregion
 
-void ledUpdate(uint16_t Data,TIM_HandleTypeDef *Timer, uint32_t Channel){
-	uint16_t pwmValue = Data * 0xFFFF / 0xFFF;
-	__HAL_TIM_SET_COMPARE(Timer,Channel,pwmValue);
-}
-
-//Fonction Cédriquuu
+// Fonction BCD
+// region[rgba(255, 0, 0, 0.1)]
 void BCD_SendCommand(uint8_t addr, uint8_t data){
 	uint8_t mot[2];
 	mot[0] = addr;
 	mot[1] = data;
-	HAL_GPIO_WritePin(SPI_NSS_GPIO_Port, SPI_NSS_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_RESET);
 	HAL_SPI_Transmit(&hspi1, mot, 2, SPI_TIMEOUT);
-	HAL_GPIO_WritePin(SPI_NSS_GPIO_Port, SPI_NSS_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_SET);
 }
 
 void BCD_Init(uint16_t time_in_second){
@@ -749,30 +756,19 @@ int BCD_updateClock(uint16_t time_in_second){
 
 }
 
-
-//A faire
-void secondToClockDisplay(uint16_t time_in_second){
-
-}
-
 void BCD_SetDigit(uint8_t digit, uint8_t value){
 	if ((digit >= 1)&&(digit>=4)){
 		BCD_SendCommand(digit,value);
 	}
 }
+// endregion
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	if (htim->Instance == TIM2){
-		time_in_second = BCD_updateClock(time_in_second);
-	}
+//Gestion du temps
+// region[rgba(180, 100, 0, 0.1)]
+void secondToClockDisplay(uint16_t time_in_second){
+
 }
-
-
-int __io_putchar(int ch) {
-	ITM_SendChar(ch);
-	return ch;
-}
-
+// endregion
 /* USER CODE END 4 */
 
 /**

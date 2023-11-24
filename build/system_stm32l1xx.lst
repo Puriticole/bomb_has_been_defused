@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 1
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -17,15 +17,15 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 1
   14              		.text
   15              	.Ltext0:
   16              		.cfi_sections	.debug_frame
-  17              		.section	.text.SystemInit,"ax",%progbits
-  18              		.align	1
-  19              		.global	SystemInit
-  20              		.syntax unified
-  21              		.thumb
-  22              		.thumb_func
-  24              	SystemInit:
-  25              	.LFB72:
-  26              		.file 1 "Core/Src/system_stm32l1xx.c"
+  17              		.file 1 "Core/Src/system_stm32l1xx.c"
+  18              		.section	.text.SystemInit,"ax",%progbits
+  19              		.align	1
+  20              		.global	SystemInit
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	SystemInit:
+  26              	.LFB72:
    1:Core/Src/system_stm32l1xx.c **** /**
    2:Core/Src/system_stm32l1xx.c ****   ******************************************************************************
    3:Core/Src/system_stm32l1xx.c ****   * @file    system_stm32l1xx.c
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 1
   30:Core/Src/system_stm32l1xx.c ****   *
   31:Core/Src/system_stm32l1xx.c ****   ******************************************************************************
   32:Core/Src/system_stm32l1xx.c ****   */
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 2
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s 			page 2
 
 
   33:Core/Src/system_stm32l1xx.c **** 
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 1
   87:Core/Src/system_stm32l1xx.c **** /* #define VECT_TAB_SRAM */
   88:Core/Src/system_stm32l1xx.c **** #if defined(VECT_TAB_SRAM)
   89:Core/Src/system_stm32l1xx.c **** #define VECT_TAB_BASE_ADDRESS   SRAM_BASE       /*!< Vector Table base address field.
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 3
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s 			page 3
 
 
   90:Core/Src/system_stm32l1xx.c ****                                                      This value must be a multiple of 0x200. */
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 1
  144:Core/Src/system_stm32l1xx.c **** /**
  145:Core/Src/system_stm32l1xx.c ****   * @}
  146:Core/Src/system_stm32l1xx.c ****   */
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 4
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s 			page 4
 
 
  147:Core/Src/system_stm32l1xx.c **** 
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 1
  184:Core/Src/system_stm32l1xx.c ****   *             
  185:Core/Src/system_stm32l1xx.c ****   *           - If SYSCLK source is MSI, SystemCoreClock will contain the MSI 
  186:Core/Src/system_stm32l1xx.c ****   *             value as defined by the MSI range.
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 5
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s 			page 5
 
 
  187:Core/Src/system_stm32l1xx.c ****   *                                   
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 1
   70 0015 43       		.byte	(.L3-.L5)/2
   71 0016 43       		.byte	(.L3-.L5)/2
   72 0017 43       		.byte	(.L3-.L5)/2
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 6
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s 			page 6
 
 
   73 0018 21       		.byte	(.L6-.L5)/2
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 1
  241:Core/Src/system_stm32l1xx.c ****       }
  242:Core/Src/system_stm32l1xx.c ****       else
  243:Core/Src/system_stm32l1xx.c ****       {
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 7
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s 			page 7
 
 
  244:Core/Src/system_stm32l1xx.c ****         /* HSE selected as PLL clock entry */
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 1
  136 0052 184B     		ldr	r3, .L11+4
  137              	.LVL11:
  226:Core/Src/system_stm32l1xx.c ****       break;
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 8
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s 			page 8
 
 
  138              		.loc 1 226 23 view .LVU30
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 1
  240:Core/Src/system_stm32l1xx.c ****       }
  177              		.loc 1 240 9 is_stmt 1 view .LVU46
  240:Core/Src/system_stm32l1xx.c ****       }
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 9
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s 			page 9
 
 
  178              		.loc 1 240 41 is_stmt 0 view .LVU47
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 1
  218 009a C3F34233 		ubfx	r3, r3, #13, #3
  219              	.LVL29:
  250:Core/Src/system_stm32l1xx.c ****       break;
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 10
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s 			page 10
 
 
  220              		.loc 1 250 7 is_stmt 1 view .LVU62
@@ -562,72 +562,69 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 1
  234 00ae 00BF     		.align	2
  235              	.L11:
  236 00b0 00380240 		.word	1073887232
- 237 00b4 00000000 		.word	.LANCHOR0
- 238 00b8 00000000 		.word	.LANCHOR2
+ 237 00b4 00000000 		.word	SystemCoreClock
+ 238 00b8 00000000 		.word	AHBPrescTable
  239 00bc 0024F400 		.word	16000000
  240 00c0 00127A00 		.word	8000000
- 241 00c4 00000000 		.word	.LANCHOR1
+ 241 00c4 00000000 		.word	PLLMulTable
  242              		.cfi_endproc
  243              	.LFE73:
  245              		.global	APBPrescTable
- 246              		.global	AHBPrescTable
- 247              		.global	PLLMulTable
- 248              		.global	SystemCoreClock
- 249              		.section	.data.SystemCoreClock,"aw"
- 250              		.align	2
- 251              		.set	.LANCHOR0,. + 0
- 254              	SystemCoreClock:
- 255 0000 68FF1F00 		.word	2097000
- 256              		.section	.rodata.AHBPrescTable,"a"
- 257              		.align	2
- 258              		.set	.LANCHOR2,. + 0
- 261              	AHBPrescTable:
- 262 0000 00000000 		.ascii	"\000\000\000\000\000\000\000\000\001\002\003\004\006"
- 262      00000000 
- 262      01020304 
- 262      06
- 263 000d 070809   		.ascii	"\007\010\011"
- 264              		.section	.rodata.APBPrescTable,"a"
- 265              		.align	2
- 268              	APBPrescTable:
- 269 0000 00000000 		.ascii	"\000\000\000\000\001\002\003\004"
- 269      01020304 
- 270              		.section	.rodata.PLLMulTable,"a"
- 271              		.align	2
- 272              		.set	.LANCHOR1,. + 0
- 275              	PLLMulTable:
- 276 0000 03040608 		.ascii	"\003\004\006\010\014\020\030 0"
- 276      0C101820 
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 11
+ 246              		.section	.rodata.APBPrescTable,"a"
+ 247              		.align	2
+ 250              	APBPrescTable:
+ 251 0000 00000000 		.ascii	"\000\000\000\000\001\002\003\004"
+ 251      01020304 
+ 252              		.global	AHBPrescTable
+ 253              		.section	.rodata.AHBPrescTable,"a"
+ 254              		.align	2
+ 257              	AHBPrescTable:
+ 258 0000 00000000 		.ascii	"\000\000\000\000\000\000\000\000\001\002\003\004\006"
+ 258      00000000 
+ 258      01020304 
+ 258      06
+ 259 000d 070809   		.ascii	"\007\010\011"
+ 260              		.global	PLLMulTable
+ 261              		.section	.rodata.PLLMulTable,"a"
+ 262              		.align	2
+ 265              	PLLMulTable:
+ 266 0000 03040608 		.ascii	"\003\004\006\010\014\020\030 0"
+ 266      0C101820 
+ 266      30
+ 267              		.global	SystemCoreClock
+ 268              		.section	.data.SystemCoreClock,"aw"
+ 269              		.align	2
+ 272              	SystemCoreClock:
+ 273 0000 68FF1F00 		.word	2097000
+ 274              		.text
+ 275              	.Letext0:
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s 			page 11
 
 
- 276      30
- 277              		.text
- 278              	.Letext0:
- 279              		.file 2 "C:\\ST\\STM32CubeCLT\\GNU-tools-for-STM32\\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../.
- 280              		.file 3 "C:\\ST\\STM32CubeCLT\\GNU-tools-for-STM32\\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../.
- 281              		.file 4 "Drivers/CMSIS/Device/ST/STM32L1xx/Include/system_stm32l1xx.h"
- 282              		.file 5 "Drivers/CMSIS/Device/ST/STM32L1xx/Include/stm32l152xe.h"
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s 			page 12
+ 276              		.file 2 "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/arm-none-eabi/include/ma
+ 277              		.file 3 "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/arm-none-eabi/include/sy
+ 278              		.file 4 "Drivers/CMSIS/Device/ST/STM32L1xx/Include/system_stm32l1xx.h"
+ 279              		.file 5 "Drivers/CMSIS/Device/ST/STM32L1xx/Include/stm32l152xe.h"
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s 			page 12
 
 
 DEFINED SYMBOLS
-                            *ABS*:0000000000000000 system_stm32l1xx.c
-C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s:18     .text.SystemInit:0000000000000000 $t
-C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s:24     .text.SystemInit:0000000000000000 SystemInit
-C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s:38     .text.SystemCoreClockUpdate:0000000000000000 $t
-C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s:44     .text.SystemCoreClockUpdate:0000000000000000 SystemCoreClockUpdate
-C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s:65     .text.SystemCoreClockUpdate:0000000000000010 $d
-C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s:236    .text.SystemCoreClockUpdate:00000000000000b0 $d
-C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s:268    .rodata.APBPrescTable:0000000000000000 APBPrescTable
-C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s:261    .rodata.AHBPrescTable:0000000000000000 AHBPrescTable
-C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s:275    .rodata.PLLMulTable:0000000000000000 PLLMulTable
-C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s:254    .data.SystemCoreClock:0000000000000000 SystemCoreClock
-C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s:250    .data.SystemCoreClock:0000000000000000 $d
-C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s:257    .rodata.AHBPrescTable:0000000000000000 $d
-C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s:265    .rodata.APBPrescTable:0000000000000000 $d
-C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s:271    .rodata.PLLMulTable:0000000000000000 $d
-C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s:78     .text.SystemCoreClockUpdate:000000000000001d $d
-C:\Users\cedri\AppData\Local\Temp\ccuKLCRK.s:78     .text.SystemCoreClockUpdate:000000000000001e $t
+                            *ABS*:00000000 system_stm32l1xx.c
+C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s:19     .text.SystemInit:00000000 $t
+C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s:25     .text.SystemInit:00000000 SystemInit
+C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s:38     .text.SystemCoreClockUpdate:00000000 $t
+C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s:44     .text.SystemCoreClockUpdate:00000000 SystemCoreClockUpdate
+C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s:65     .text.SystemCoreClockUpdate:00000010 $d
+C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s:236    .text.SystemCoreClockUpdate:000000b0 $d
+C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s:272    .data.SystemCoreClock:00000000 SystemCoreClock
+C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s:257    .rodata.AHBPrescTable:00000000 AHBPrescTable
+C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s:265    .rodata.PLLMulTable:00000000 PLLMulTable
+C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s:250    .rodata.APBPrescTable:00000000 APBPrescTable
+C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s:247    .rodata.APBPrescTable:00000000 $d
+C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s:254    .rodata.AHBPrescTable:00000000 $d
+C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s:262    .rodata.PLLMulTable:00000000 $d
+C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s:269    .data.SystemCoreClock:00000000 $d
+C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s:78     .text.SystemCoreClockUpdate:0000001d $d
+C:\Users\cedri\AppData\Local\Temp\ccwXXZZn.s:78     .text.SystemCoreClockUpdate:0000001e $t
 
 NO UNDEFINED SYMBOLS

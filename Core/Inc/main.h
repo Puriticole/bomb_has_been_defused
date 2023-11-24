@@ -80,6 +80,8 @@ void Error_Handler(void);
 #define BTN_3_Pin GPIO_PIN_6
 #define BTN_3_GPIO_Port GPIOC
 #define BTN_3_EXTI_IRQn EXTI9_5_IRQn
+#define SPI1_NSS_Pin GPIO_PIN_8
+#define SPI1_NSS_GPIO_Port GPIOA
 #define BTN_1_Pin GPIO_PIN_11
 #define BTN_1_GPIO_Port GPIOA
 #define BTN_1_EXTI_IRQn EXTI15_10_IRQn

@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -17,15 +17,15 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
   14              		.text
   15              	.Ltext0:
   16              		.cfi_sections	.debug_frame
-  17              		.section	.text.HAL_PWREx_GetVoltageRange,"ax",%progbits
-  18              		.align	1
-  19              		.global	HAL_PWREx_GetVoltageRange
-  20              		.syntax unified
-  21              		.thumb
-  22              		.thumb_func
-  24              	HAL_PWREx_GetVoltageRange:
-  25              	.LFB72:
-  26              		.file 1 "Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c"
+  17              		.file 1 "Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c"
+  18              		.section	.text.HAL_PWREx_GetVoltageRange,"ax",%progbits
+  19              		.align	1
+  20              		.global	HAL_PWREx_GetVoltageRange
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	HAL_PWREx_GetVoltageRange:
+  26              	.LFB72:
    1:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c **** /**
    2:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c ****   ******************************************************************************
    3:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c ****   * @file    stm32l1xx_hal_pwr_ex.c
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
   30:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c **** 
   31:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c **** /** @defgroup PWREx PWREx
   32:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c ****   * @brief    PWR HAL module driver
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 2
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 2
 
 
   33:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c ****   * @{
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
   46              		.section	.text.HAL_PWREx_EnableFastWakeUp,"ax",%progbits
   47              		.align	1
   48              		.global	HAL_PWREx_EnableFastWakeUp
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 3
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 3
 
 
   49              		.syntax unified
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
   27:Drivers/CMSIS/Include/cmsis_gcc.h **** 
   28:Drivers/CMSIS/Include/cmsis_gcc.h **** /* ignore some GCC warnings */
   29:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic push
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 4
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 4
 
 
   30:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wsign-conversion"
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
   84:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_WRITE(addr, val)    (void)((((struct T_UINT16_WRITE *)(void *)(addr))-
   85:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
   86:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_READ
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 5
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 5
 
 
   87:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  141:Drivers/CMSIS/Include/cmsis_gcc.h **** {
  142:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("cpsid i" : : : "memory");
  143:Drivers/CMSIS/Include/cmsis_gcc.h **** }
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 6
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 6
 
 
  144:Drivers/CMSIS/Include/cmsis_gcc.h **** 
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  198:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  199:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  200:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 7
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 7
 
 
  201:Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Get IPSR Register
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  255:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  256:Drivers/CMSIS/Include/cmsis_gcc.h **** #if (defined (__ARM_FEATURE_CMSE ) && (__ARM_FEATURE_CMSE == 3))
  257:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 8
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 8
 
 
  258:Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Get Process Stack Pointer (non-secure)
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  312:Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Get Main Stack Pointer (non-secure)
  313:Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Returns the current value of the non-secure Main Stack Pointer (MSP) when in secure stat
  314:Drivers/CMSIS/Include/cmsis_gcc.h ****   \return               MSP Register value
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 9
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 9
 
 
  315:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  369:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
  370:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE void __TZ_set_SP_NS(uint32_t topOfStack)
  371:Drivers/CMSIS/Include/cmsis_gcc.h **** {
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 10
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 10
 
 
  372:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("MSR sp_ns, %0" : : "r" (topOfStack) : );
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  426:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("MSR primask_ns, %0" : : "r" (priMask) : "memory");
  427:Drivers/CMSIS/Include/cmsis_gcc.h **** }
  428:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 11
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 11
 
 
  429:Drivers/CMSIS/Include/cmsis_gcc.h **** 
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  483:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
  484:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  485:Drivers/CMSIS/Include/cmsis_gcc.h **** 
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 12
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 12
 
 
  486:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  540:Drivers/CMSIS/Include/cmsis_gcc.h ****   \return               Fault Mask register value
  541:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
  542:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE uint32_t __TZ_get_FAULTMASK_NS(void)
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 13
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 13
 
 
  543:Drivers/CMSIS/Include/cmsis_gcc.h **** {
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  597:Drivers/CMSIS/Include/cmsis_gcc.h ****   return 0U;
  598:Drivers/CMSIS/Include/cmsis_gcc.h **** #else
  599:Drivers/CMSIS/Include/cmsis_gcc.h ****   uint32_t result;
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 14
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 14
 
 
  600:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("MRS %0, psplim"  : "=r" (result) );
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  654:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  655:Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Assigns the given value to the non-secure Process Stack Pointer Limit (PSPLIM) when in s
  656:Drivers/CMSIS/Include/cmsis_gcc.h ****   \param [in]    ProcStackPtrLimit  Process Stack Pointer Limit value to set
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 15
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 15
 
 
  657:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  711:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
  712:Drivers/CMSIS/Include/cmsis_gcc.h **** }
  713:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 16
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 16
 
 
  714:Drivers/CMSIS/Include/cmsis_gcc.h **** 
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  768:Drivers/CMSIS/Include/cmsis_gcc.h **** #if ((defined (__FPU_PRESENT) && (__FPU_PRESENT == 1U)) && \
  769:Drivers/CMSIS/Include/cmsis_gcc.h ****      (defined (__FPU_USED   ) && (__FPU_USED    == 1U))     )
  770:Drivers/CMSIS/Include/cmsis_gcc.h **** #if __has_builtin(__builtin_arm_get_fpscr) 
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 17
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 17
 
 
  771:Drivers/CMSIS/Include/cmsis_gcc.h **** // Re-enable using built-in when GCC has been fixed
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  825:Drivers/CMSIS/Include/cmsis_gcc.h **** #define __CMSIS_GCC_USE_REG(r) "l" (r)
  826:Drivers/CMSIS/Include/cmsis_gcc.h **** #else
  827:Drivers/CMSIS/Include/cmsis_gcc.h **** #define __CMSIS_GCC_OUT_REG(r) "=r" (r)
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 18
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 18
 
 
  828:Drivers/CMSIS/Include/cmsis_gcc.h **** #define __CMSIS_GCC_RW_REG(r) "+r" (r)
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  882:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  883:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
  884:Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Data Memory Barrier
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 19
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 19
 
 
  885:Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Ensures the apparent order of the explicit memory operations before
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  939:Drivers/CMSIS/Include/cmsis_gcc.h ****   int16_t result;
  940:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  941:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("revsh %0, %1" : __CMSIS_GCC_OUT_REG (result) : __CMSIS_GCC_USE_REG (value) );
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 20
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 20
 
 
  942:Drivers/CMSIS/Include/cmsis_gcc.h ****   return result;
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
   72 0004 93FAA3F3 		rbit r3, r3
   73              	@ 0 "" 2
   74              	.LVL1:
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 21
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 21
 
 
  989:Drivers/CMSIS/Include/cmsis_gcc.h **** #else
@@ -1220,12 +1220,12 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
   78              		.syntax unified
   79              	.LBE19:
   80              	.LBE18:
-  81              		.loc 1 81 22 view .LVU11
+  81              		.loc 1 81 22 discriminator 2 view .LVU11
   82 0008 B3FA83F3 		clz	r3, r3
   83 000c 9B00     		lsls	r3, r3, #2
   84 000e 03F18443 		add	r3, r3, #1107296256
   85 0012 03F56023 		add	r3, r3, #917504
-  86              		.loc 1 81 32 view .LVU12
+  86              		.loc 1 81 32 discriminator 2 view .LVU12
   87 0016 0122     		movs	r2, #1
   88 0018 1A60     		str	r2, [r3]
   82:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c **** }
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  108              		.loc 1 91 3 view .LVU15
  109              	.LVL2:
  110              	.LBB20:
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 22
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 22
 
 
  111              	.LBI20:
@@ -1281,12 +1281,12 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  125              		.syntax unified
  126              	.LBE21:
  127              	.LBE20:
- 128              		.loc 1 91 22 view .LVU21
+ 128              		.loc 1 91 22 discriminator 2 view .LVU21
  129 0008 B3FA83F3 		clz	r3, r3
  130 000c 9B00     		lsls	r3, r3, #2
  131 000e 03F18443 		add	r3, r3, #1107296256
  132 0012 03F56023 		add	r3, r3, #917504
- 133              		.loc 1 91 32 view .LVU22
+ 133              		.loc 1 91 32 discriminator 2 view .LVU22
  134 0016 0022     		movs	r2, #0
  135 0018 1A60     		str	r2, [r3]
   92:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c **** }
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  101:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c ****   *(__IO uint32_t *) CR_ULP_BB = (uint32_t)ENABLE;
  155              		.loc 1 101 3 view .LVU25
  156              	.LVL4:
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 23
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 23
 
 
  157              	.LBB22:
@@ -1342,12 +1342,12 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  172              		.syntax unified
  173              	.LBE23:
  174              	.LBE22:
- 175              		.loc 1 101 22 view .LVU31
+ 175              		.loc 1 101 22 discriminator 2 view .LVU31
  176 0008 B3FA83F3 		clz	r3, r3
  177 000c 9B00     		lsls	r3, r3, #2
  178 000e 03F18443 		add	r3, r3, #1107296256
  179 0012 03F56023 		add	r3, r3, #917504
- 180              		.loc 1 101 32 view .LVU32
+ 180              		.loc 1 101 32 discriminator 2 view .LVU32
  181 0016 0122     		movs	r2, #1
  182 0018 1A60     		str	r2, [r3]
  102:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c **** }
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  110:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c ****   /* Disable the Ultra Low Power mode */
  111:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c ****   *(__IO uint32_t *) CR_ULP_BB = (uint32_t)DISABLE;
  202              		.loc 1 111 3 view .LVU35
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 24
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 24
 
 
  203              	.LVL6:
@@ -1403,12 +1403,12 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  219              		.syntax unified
  220              	.LBE25:
  221              	.LBE24:
- 222              		.loc 1 111 22 view .LVU41
+ 222              		.loc 1 111 22 discriminator 2 view .LVU41
  223 0008 B3FA83F3 		clz	r3, r3
  224 000c 9B00     		lsls	r3, r3, #2
  225 000e 03F18443 		add	r3, r3, #1107296256
  226 0012 03F56023 		add	r3, r3, #917504
- 227              		.loc 1 111 32 view .LVU42
+ 227              		.loc 1 111 32 discriminator 2 view .LVU42
  228 0016 0022     		movs	r2, #0
  229 0018 1A60     		str	r2, [r3]
  112:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c **** }
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  124:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c **** void HAL_PWREx_EnableLowPowerRunMode(void)
  125:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c **** {
  244              		.loc 1 125 1 is_stmt 1 view -0
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 25
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 25
 
 
  245              		.cfi_startproc
@@ -1470,12 +1470,12 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  266              		.syntax unified
  267              	.LBE27:
  268              	.LBE26:
- 269              		.loc 1 127 22 view .LVU51
+ 269              		.loc 1 127 22 discriminator 2 view .LVU51
  270 0006 B3FA83F3 		clz	r3, r3
  271 000a 9B00     		lsls	r3, r3, #2
  272 000c 03F18443 		add	r3, r3, #1107296256
  273 0010 03F56023 		add	r3, r3, #917504
- 274              		.loc 1 127 35 view .LVU52
+ 274              		.loc 1 127 35 discriminator 2 view .LVU52
  275 0014 1A60     		str	r2, [r3]
  128:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c ****   *(__IO uint32_t *) CR_LPRUN_BB  = (uint32_t)ENABLE;
  276              		.loc 1 128 3 is_stmt 1 view .LVU53
@@ -1498,18 +1498,18 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  290              		.loc 2 1001 3 view .LVU57
  291              		.loc 2 1001 3 is_stmt 0 view .LVU58
  292              		.thumb
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 26
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 26
 
 
  293              		.syntax unified
  294              	.LBE29:
  295              	.LBE28:
- 296              		.loc 1 128 22 view .LVU59
+ 296              		.loc 1 128 22 discriminator 2 view .LVU59
  297 001e B3FA83F3 		clz	r3, r3
  298 0022 9B00     		lsls	r3, r3, #2
  299 0024 03F18443 		add	r3, r3, #1107296256
  300 0028 03F56023 		add	r3, r3, #917504
- 301              		.loc 1 128 35 view .LVU60
+ 301              		.loc 1 128 35 discriminator 2 view .LVU60
  302 002c 1A60     		str	r2, [r3]
  129:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c **** }
  303              		.loc 1 129 1 view .LVU61
@@ -1558,18 +1558,18 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  336              		.loc 2 1001 3 view .LVU67
  337              		.loc 2 1001 3 is_stmt 0 view .LVU68
  338              		.thumb
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 27
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 27
 
 
  339              		.syntax unified
  340              	.LBE31:
  341              	.LBE30:
- 342              		.loc 1 138 22 view .LVU69
+ 342              		.loc 1 138 22 discriminator 2 view .LVU69
  343 0008 B3FA83F3 		clz	r3, r3
  344 000c 9B00     		lsls	r3, r3, #2
  345 000e 03F18443 		add	r3, r3, #1107296256
  346 0012 03F56023 		add	r3, r3, #917504
- 347              		.loc 1 138 35 view .LVU70
+ 347              		.loc 1 138 35 discriminator 2 view .LVU70
  348 0016 0020     		movs	r0, #0
  349 0018 1860     		str	r0, [r3]
  139:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c ****   *(__IO uint32_t *) CR_LPSDSR_BB = (uint32_t)DISABLE;
@@ -1596,12 +1596,12 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  367              		.syntax unified
  368              	.LBE33:
  369              	.LBE32:
- 370              		.loc 1 139 22 view .LVU77
+ 370              		.loc 1 139 22 discriminator 2 view .LVU77
  371 0020 B3FA83F3 		clz	r3, r3
  372 0024 9B00     		lsls	r3, r3, #2
  373 0026 03F18443 		add	r3, r3, #1107296256
  374 002a 03F56023 		add	r3, r3, #917504
- 375              		.loc 1 139 35 view .LVU78
+ 375              		.loc 1 139 35 discriminator 2 view .LVU78
  376 002e 1860     		str	r0, [r3]
  140:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_pwr_ex.c ****   return HAL_OK;
  377              		.loc 1 140 3 is_stmt 1 view .LVU79
@@ -1612,30 +1612,30 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 1
  381              	.LFE78:
  383              		.text
  384              	.Letext0:
- 385              		.file 3 "C:\\ST\\STM32CubeCLT\\GNU-tools-for-STM32\\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../.
- 386              		.file 4 "C:\\ST\\STM32CubeCLT\\GNU-tools-for-STM32\\bin/../lib/gcc/arm-none-eabi/11.3.1/../../../.
+ 385              		.file 3 "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/arm-none-eabi/include/ma
+ 386              		.file 4 "C:/Program Files (x86)/Arm GNU Toolchain arm-none-eabi/13.2 Rel1/arm-none-eabi/include/sy
  387              		.file 5 "Drivers/CMSIS/Device/ST/STM32L1xx/Include/stm32l152xe.h"
  388              		.file 6 "Drivers/CMSIS/Device/ST/STM32L1xx/Include/stm32l1xx.h"
  389              		.file 7 "Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_def.h"
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s 			page 28
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s 			page 28
 
 
 DEFINED SYMBOLS
-                            *ABS*:0000000000000000 stm32l1xx_hal_pwr_ex.c
-C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s:18     .text.HAL_PWREx_GetVoltageRange:0000000000000000 $t
-C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s:24     .text.HAL_PWREx_GetVoltageRange:0000000000000000 HAL_PWREx_GetVoltageRange
-C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s:42     .text.HAL_PWREx_GetVoltageRange:000000000000000c $d
-C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s:47     .text.HAL_PWREx_EnableFastWakeUp:0000000000000000 $t
-C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s:53     .text.HAL_PWREx_EnableFastWakeUp:0000000000000000 HAL_PWREx_EnableFastWakeUp
-C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s:95     .text.HAL_PWREx_DisableFastWakeUp:0000000000000000 $t
-C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s:101    .text.HAL_PWREx_DisableFastWakeUp:0000000000000000 HAL_PWREx_DisableFastWakeUp
-C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s:142    .text.HAL_PWREx_EnableUltraLowPower:0000000000000000 $t
-C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s:148    .text.HAL_PWREx_EnableUltraLowPower:0000000000000000 HAL_PWREx_EnableUltraLowPower
-C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s:189    .text.HAL_PWREx_DisableUltraLowPower:0000000000000000 $t
-C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s:195    .text.HAL_PWREx_DisableUltraLowPower:0000000000000000 HAL_PWREx_DisableUltraLowPower
-C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s:236    .text.HAL_PWREx_EnableLowPowerRunMode:0000000000000000 $t
-C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s:242    .text.HAL_PWREx_EnableLowPowerRunMode:0000000000000000 HAL_PWREx_EnableLowPowerRunMode
-C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s:309    .text.HAL_PWREx_DisableLowPowerRunMode:0000000000000000 $t
-C:\Users\cedri\AppData\Local\Temp\ccskGkFq.s:315    .text.HAL_PWREx_DisableLowPowerRunMode:0000000000000000 HAL_PWREx_DisableLowPowerRunMode
+                            *ABS*:00000000 stm32l1xx_hal_pwr_ex.c
+C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s:19     .text.HAL_PWREx_GetVoltageRange:00000000 $t
+C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s:25     .text.HAL_PWREx_GetVoltageRange:00000000 HAL_PWREx_GetVoltageRange
+C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s:42     .text.HAL_PWREx_GetVoltageRange:0000000c $d
+C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s:47     .text.HAL_PWREx_EnableFastWakeUp:00000000 $t
+C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s:53     .text.HAL_PWREx_EnableFastWakeUp:00000000 HAL_PWREx_EnableFastWakeUp
+C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s:95     .text.HAL_PWREx_DisableFastWakeUp:00000000 $t
+C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s:101    .text.HAL_PWREx_DisableFastWakeUp:00000000 HAL_PWREx_DisableFastWakeUp
+C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s:142    .text.HAL_PWREx_EnableUltraLowPower:00000000 $t
+C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s:148    .text.HAL_PWREx_EnableUltraLowPower:00000000 HAL_PWREx_EnableUltraLowPower
+C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s:189    .text.HAL_PWREx_DisableUltraLowPower:00000000 $t
+C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s:195    .text.HAL_PWREx_DisableUltraLowPower:00000000 HAL_PWREx_DisableUltraLowPower
+C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s:236    .text.HAL_PWREx_EnableLowPowerRunMode:00000000 $t
+C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s:242    .text.HAL_PWREx_EnableLowPowerRunMode:00000000 HAL_PWREx_EnableLowPowerRunMode
+C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s:309    .text.HAL_PWREx_DisableLowPowerRunMode:00000000 $t
+C:\Users\cedri\AppData\Local\Temp\ccfzGhc1.s:315    .text.HAL_PWREx_DisableLowPowerRunMode:00000000 HAL_PWREx_DisableLowPowerRunMode
 
 NO UNDEFINED SYMBOLS
