@@ -38,6 +38,15 @@
 #define PI 3
 #define DELAY_DEBOUNCE 300
 #define SEED 1234
+
+//Define pour le MP3 - a utilise avec la fonction void play_track(uint8_t track_nb);
+#define BIP 1
+#define SOUND_START_BOMB 2
+#define BOMB_DEFUSED 3
+#define BOMB_EXPLODED 4
+#define SOUND_PUSH_BUTTON 5
+#define BOMB_HAS_BEEN_PLANTED 6
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -52,7 +61,7 @@ DMA_HandleTypeDef hdma_adc;
 SPI_HandleTypeDef hspi1;
 
 TIM_HandleTypeDef htim2;
-TIM_HandleTypeDef htim4;
+TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim9;
 TIM_HandleTypeDef htim10;
 TIM_HandleTypeDef htim11;
@@ -65,7 +74,10 @@ uint16_t adcData[2];
 uint32_t buttonElapsed[4] = {0,0,0,0};
 uint32_t seed;
 bool seedInitialized = false;uint8_t second;
-uint16_t time_in_second = 20;
+uint8_t time_in_second = 20;
+uint8_t flag_bipbip = 0;
+uint8_t freqence_bipbip = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -80,7 +92,7 @@ static void MX_UART4_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_TIM9_Init(void);
 static void MX_TIM11_Init(void);
-static void MX_TIM4_Init(void);
+static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
 void ledUpdate(uint16_t adcValue, TIM_HandleTypeDef *htim, uint32_t Channel);void BCD_SendCommand(uint8_t addr, uint8_t data);
 void BCD_Init(uint16_t time_in_second);
@@ -88,6 +100,8 @@ void BCD_SetDigit(uint8_t digit, uint8_t value);
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
 int BCD_updateClock(uint16_t time_in_second);
 void secondToClockDisplay(uint16_t time_in_second);
+void play();
+void play_track(uint8_t track_nb);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -132,24 +146,55 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM9_Init();
   MX_TIM11_Init();
-  MX_TIM4_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_Base_Start_IT(&htim2);
+
+  play_track(SOUND_START_BOMB);
+
+  HAL_Delay(1500);
+
+  play_track(BOMB_HAS_BEEN_PLANTED);
+
+  HAL_Delay(1500); //Délai pour jouer BOMB_HAS_BEEN_PLANTED en entier
+
+  HAL_TIM_Base_Start_IT(&htim10); //Timer décompteur
+  HAL_TIM_Base_Start_IT(&htim2); 
   HAL_TIM_PWM_Start(&htim11, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_2);
+  HAL_TIM_Base_Start_IT(&htim3); //Timer bipbip
   printf("Starting\r\n");
+
+
 
 	BCD_Init(time_in_second);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	while (1)
+	while (time_in_second > 0)
 	{
+    if(time_in_second>15){
+      freqence_bipbip = 200;
+    }if(15>= time_in_second){
+      freqence_bipbip = 90;
+    }if(10>= time_in_second){
+      freqence_bipbip = 60;
+    }if(5>time_in_second){
+      freqence_bipbip = 30;
+    }
+
+
+
+    if(flag_bipbip>freqence_bipbip){
+      play_track(BIP);
+      flag_bipbip = 0;
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 	}
+	HAL_TIM_Base_Stop_IT(&htim2);
+	play_track(BOMB_EXPLODED);
   /* USER CODE END 3 */
 }
 
@@ -344,47 +389,47 @@ static void MX_TIM2_Init(void)
 }
 
 /**
-  * @brief TIM4 Initialization Function
+  * @brief TIM3 Initialization Function
   * @param None
   * @retval None
   */
-static void MX_TIM4_Init(void)
+static void MX_TIM3_Init(void)
 {
 
-  /* USER CODE BEGIN TIM4_Init 0 */
+  /* USER CODE BEGIN TIM3_Init 0 */
 
-  /* USER CODE END TIM4_Init 0 */
+  /* USER CODE END TIM3_Init 0 */
 
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
 
-  /* USER CODE BEGIN TIM4_Init 1 */
+  /* USER CODE BEGIN TIM3_Init 1 */
 
-  /* USER CODE END TIM4_Init 1 */
-  htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 499;
-  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 9599;
-  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
+  /* USER CODE END TIM3_Init 1 */
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 499;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 15999;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
   {
     Error_Handler();
   }
   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  if (HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig) != HAL_OK)
+  if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
   {
     Error_Handler();
   }
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN TIM4_Init 2 */
+  /* USER CODE BEGIN TIM3_Init 2 */
 
-  /* USER CODE END TIM4_Init 2 */
+  /* USER CODE END TIM3_Init 2 */
 
 }
 
@@ -797,6 +842,17 @@ void BCD_SetDigit(uint8_t digit, uint8_t value){
 }
 // endregion
 
+
+void play(void){
+  uint8_t array[4] = {0xAA, 0x02, 0x00, 0xAC};
+  HAL_UART_Transmit(&huart4, array, sizeof(array), 1000);
+}
+
+void play_track(uint8_t track_nb){
+  uint8_t array[6] = {0xAA, 0x07, 0x02, 0x00, track_nb, 0xB3+track_nb};
+  HAL_UART_Transmit(&huart4, array, sizeof(array), 1000);
+}
+
 //Gestion du temps
 // region[rgba(180, 100, 0, 0.1)]
 void secondToClockDisplay(uint16_t time_in_second){
@@ -813,9 +869,17 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
     ledUpdate(adcData[1], &htim11, TIM_CHANNEL_1);
 
     randomGLC();
+    flag_bipbip++;
+  }
 
+  if (htim->Instance == TIM10){
     time_in_second = BCD_updateClock(time_in_second);
   }
+
+  if (htim->Instance == TIM3){
+    
+  }
+  
 }
 
 // endregion
