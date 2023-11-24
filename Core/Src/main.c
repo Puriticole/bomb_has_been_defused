@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "stdio.h"
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -64,6 +64,8 @@ UART_HandleTypeDef huart2;
 /* USER CODE BEGIN PV */
 uint8_t second;
 uint16_t time_in_second = 20;
+uint8_t frequence_bipbip = 1000;
+uint8_t flag_changement_freq_bipbip = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -87,7 +89,7 @@ void secondToClockDisplay(uint16_t time_in_second);
 //Fonction MP3
 void play();
 void play_track(uint8_t track_nb);
-
+int check_playback_status();
 
 /* USER CODE END PFP */
 
@@ -131,21 +133,38 @@ int main(void)
   MX_UART4_Init();
   /* USER CODE BEGIN 2 */
 
-	HAL_TIM_Base_Start_IT(&htim2); //timer 7 segments
-  HAL_TIM_Base_Start_IT(&htim10); //timer bip-bip
+
 
   //Debug
-	printf("Startuuuu\r\n");
+  printf("Startuuuu\r\n");
 
-	BCD_Init(time_in_second);
 
+
+  check_playback_status();
   play_track(BOMB_HAS_BEEN_PLANTED);
+  check_playback_status();
+
+  HAL_Delay(500); //A remplacer avec un truc + propre
+
+  HAL_TIM_Base_Start_IT(&htim2); //timer 7 segments
+  BCD_Init(time_in_second);
+
+
+  HAL_TIM_Base_Start_IT(&htim10); //timer bip-bip
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1)
 	{
+    if(flag_changement_freq_bipbip == 4){
+      frequence_bipbip = frequence_bipbip*2;
+      __HAL_TIM_SET_PRESCALER(&htim10,(frequence_bipbip)-1); //Divise par deux le prescaller tt les 4 coups d'horloge 10.
+      flag_changement_freq_bipbip = 0;
+      printf("Freq bipbip %d \r\n",frequence_bipbip);
+    }
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -518,6 +537,7 @@ void BCD_SetDigit(uint8_t digit, uint8_t value){
 	}
 }
 
+//Commande MP3
 void play(void){
   uint8_t array[4] = {0xAA, 0x02, 0x00, 0xAC};
   HAL_UART_Transmit(&huart4, array, sizeof(array), 1000);
@@ -528,15 +548,15 @@ void play_track(uint8_t track_nb){
   HAL_UART_Transmit(&huart4, array, sizeof(array), 1000);
 }
 
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-  if (htim->Instance == TIM2){
-    time_in_second = BCD_updateClock(time_in_second);
-  }
-  if (htim->Instance == TIM10){
-     play_track(BIP);
-   }
+int check_playback_status(){
+  uint8_t array[4] = {0xAA, 0x02, 0x00, 0xAB};
+  uint8_t receive_array[4] = {0x00, 0x00, 0x00, 0x00};
+  HAL_UART_Transmit(&huart4, array, sizeof(array), 1000);
+  HAL_UART_Receive(&huart4,receive_array,sizeof(receive_array),1000);
+  uint8_t code =  receive_array[3];
+  printf("%02x \r\n", code);
 }
+
 
 
 
@@ -544,6 +564,18 @@ int __io_putchar(int ch) {
 	ITM_SendChar(ch);
 	return ch;
 }
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
+  if (htim->Instance == TIM2){
+    time_in_second = BCD_updateClock(time_in_second);
+  }
+ if (htim->Instance == TIM10){
+    play_track(BIP);
+    flag_changement_freq_bipbip++;
+    printf("flag_changement_freq_bipbip %d \r\n",flag_changement_freq_bipbip);
+   }
+}
+
 
 /* USER CODE END 4 */
 
