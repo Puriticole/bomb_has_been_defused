@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include <stdbool.h>
+#include <math.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -33,20 +34,11 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define SPI_TIMEOUT 1000
-#define TIME_GAME 20
+#define TIME_GAME 60
 #define BUFFER_SIZE 10
-#define PI 3
+#define PI 3.1415
 #define DELAY_DEBOUNCE 300
 #define SEED 1234
-
-//Define pour le MP3 - a utilise avec la fonction void play_track(uint8_t track_nb);
-#define BIP 1
-#define SOUND_START_BOMB 2
-#define BOMB_DEFUSED 3
-#define BOMB_EXPLODED 4
-#define SOUND_PUSH_BUTTON 5
-#define BOMB_HAS_BEEN_PLANTED 6
-
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -71,13 +63,12 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 uint16_t adcData[2];
-uint32_t buttonElapsed[4] = {0,0,0,0};
+uint32_t buttonElapsed[4] = {0, 0, 0, 0};
 uint32_t seed;
-bool seedInitialized = false;uint8_t second;
-uint8_t time_in_second = 20;
-uint8_t flag_bipbip = 0;
-uint8_t freqence_bipbip = 0;
-
+bool seedInitialized = false;
+uint8_t second;
+uint16_t time_in_second = TIME_GAME;
+uint8_t flagComptTemps = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -94,14 +85,13 @@ static void MX_TIM9_Init(void);
 static void MX_TIM11_Init(void);
 static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
-void ledUpdate(uint16_t adcValue, TIM_HandleTypeDef *htim, uint32_t Channel);void BCD_SendCommand(uint8_t addr, uint8_t data);
+void ledUpdate(uint16_t adcValue, TIM_HandleTypeDef *htim, uint32_t Channel);
+void BCD_SendCommand(uint8_t addr, uint8_t data);
 void BCD_Init(uint16_t time_in_second);
 void BCD_SetDigit(uint8_t digit, uint8_t value);
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
 int BCD_updateClock(uint16_t time_in_second);
 void secondToClockDisplay(uint16_t time_in_second);
-void play();
-void play_track(uint8_t track_nb);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -110,9 +100,9 @@ void play_track(uint8_t track_nb);
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
-  * @retval int
-  */
+ * @brief  The application entry point.
+ * @retval int
+ */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -148,72 +138,41 @@ int main(void)
   MX_TIM11_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-
-  play_track(SOUND_START_BOMB);
-
-  HAL_Delay(1500);
-
-  play_track(BOMB_HAS_BEEN_PLANTED);
-
-  HAL_Delay(1500); //Délai pour jouer BOMB_HAS_BEEN_PLANTED en entier
-
-  HAL_TIM_Base_Start_IT(&htim10); //Timer décompteur
-  HAL_TIM_Base_Start_IT(&htim2); 
+  HAL_TIM_Base_Start_IT(&htim2);
   HAL_TIM_PWM_Start(&htim11, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_2);
-  HAL_TIM_Base_Start_IT(&htim3); //Timer bipbip
   printf("Starting\r\n");
 
-
-
-	BCD_Init(time_in_second);
+  BCD_Init(time_in_second);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	while (time_in_second > 0)
-	{
-    if(time_in_second>15){
-      freqence_bipbip = 200;
-    }if(15>= time_in_second){
-      freqence_bipbip = 90;
-    }if(10>= time_in_second){
-      freqence_bipbip = 60;
-    }if(5>time_in_second){
-      freqence_bipbip = 30;
-    }
-
-
-
-    if(flag_bipbip>freqence_bipbip){
-      play_track(BIP);
-      flag_bipbip = 0;
-    }
+  while (1)
+  {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	}
-	HAL_TIM_Base_Stop_IT(&htim2);
-	play_track(BOMB_EXPLODED);
+  }
   /* USER CODE END 3 */
 }
 
 /**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+ * @brief System Clock Configuration
+ * @retval None
+ */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
   /** Configure the main internal regulator output voltage
-  */
+   */
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
   /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
+   * in the RCC_OscInitTypeDef structure.
+   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
@@ -227,9 +186,8 @@ void SystemClock_Config(void)
   }
 
   /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+   */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
@@ -242,10 +200,10 @@ void SystemClock_Config(void)
 }
 
 /**
-  * @brief ADC Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief ADC Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_ADC_Init(void)
 {
 
@@ -260,7 +218,7 @@ static void MX_ADC_Init(void)
   /* USER CODE END ADC_Init 1 */
 
   /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
-  */
+   */
   hadc.Instance = ADC1;
   hadc.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
   hadc.Init.Resolution = ADC_RESOLUTION_12B;
@@ -282,7 +240,7 @@ static void MX_ADC_Init(void)
   }
 
   /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
-  */
+   */
   sConfig.Channel = ADC_CHANNEL_0;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SamplingTime = ADC_SAMPLETIME_4CYCLES;
@@ -292,7 +250,7 @@ static void MX_ADC_Init(void)
   }
 
   /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
-  */
+   */
   sConfig.Channel = ADC_CHANNEL_1;
   sConfig.Rank = ADC_REGULAR_RANK_2;
   if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
@@ -302,14 +260,13 @@ static void MX_ADC_Init(void)
   /* USER CODE BEGIN ADC_Init 2 */
 
   /* USER CODE END ADC_Init 2 */
-
 }
 
 /**
-  * @brief SPI1 Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief SPI1 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_SPI1_Init(void)
 {
 
@@ -340,14 +297,13 @@ static void MX_SPI1_Init(void)
   /* USER CODE BEGIN SPI1_Init 2 */
 
   /* USER CODE END SPI1_Init 2 */
-
 }
 
 /**
-  * @brief TIM2 Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief TIM2 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_TIM2_Init(void)
 {
 
@@ -385,14 +341,13 @@ static void MX_TIM2_Init(void)
   /* USER CODE BEGIN TIM2_Init 2 */
 
   /* USER CODE END TIM2_Init 2 */
-
 }
 
 /**
-  * @brief TIM3 Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief TIM3 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_TIM3_Init(void)
 {
 
@@ -430,14 +385,13 @@ static void MX_TIM3_Init(void)
   /* USER CODE BEGIN TIM3_Init 2 */
 
   /* USER CODE END TIM3_Init 2 */
-
 }
 
 /**
-  * @brief TIM9 Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief TIM9 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_TIM9_Init(void)
 {
 
@@ -479,14 +433,13 @@ static void MX_TIM9_Init(void)
 
   /* USER CODE END TIM9_Init 2 */
   HAL_TIM_MspPostInit(&htim9);
-
 }
 
 /**
-  * @brief TIM10 Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief TIM10 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_TIM10_Init(void)
 {
 
@@ -517,14 +470,13 @@ static void MX_TIM10_Init(void)
   /* USER CODE BEGIN TIM10_Init 2 */
 
   /* USER CODE END TIM10_Init 2 */
-
 }
 
 /**
-  * @brief TIM11 Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief TIM11 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_TIM11_Init(void)
 {
 
@@ -559,14 +511,13 @@ static void MX_TIM11_Init(void)
 
   /* USER CODE END TIM11_Init 2 */
   HAL_TIM_MspPostInit(&htim11);
-
 }
 
 /**
-  * @brief UART4 Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief UART4 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_UART4_Init(void)
 {
 
@@ -592,14 +543,13 @@ static void MX_UART4_Init(void)
   /* USER CODE BEGIN UART4_Init 2 */
 
   /* USER CODE END UART4_Init 2 */
-
 }
 
 /**
-  * @brief USART2 Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief USART2 Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_USART2_UART_Init(void)
 {
 
@@ -625,12 +575,11 @@ static void MX_USART2_UART_Init(void)
   /* USER CODE BEGIN USART2_Init 2 */
 
   /* USER CODE END USART2_Init 2 */
-
 }
 
 /**
-  * Enable DMA controller clock
-  */
+ * Enable DMA controller clock
+ */
 static void MX_DMA_Init(void)
 {
 
@@ -641,19 +590,18 @@ static void MX_DMA_Init(void)
   /* DMA1_Channel1_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
-
 }
 
 /**
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
+ * @brief GPIO Initialization Function
+ * @param None
+ * @retval None
+ */
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
-/* USER CODE BEGIN MX_GPIO_Init_1 */
-/* USER CODE END MX_GPIO_Init_1 */
+  /* USER CODE BEGIN MX_GPIO_Init_1 */
+  /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
@@ -665,7 +613,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : B1_Pin BTN_4_Pin BTN_3_Pin */
-  GPIO_InitStruct.Pin = B1_Pin|BTN_4_Pin|BTN_3_Pin;
+  GPIO_InitStruct.Pin = B1_Pin | BTN_4_Pin | BTN_3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
@@ -678,7 +626,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(SPI1_NSS_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : BTN_1_Pin BTN_2_Pin */
-  GPIO_InitStruct.Pin = BTN_1_Pin|BTN_2_Pin;
+  GPIO_InitStruct.Pin = BTN_1_Pin | BTN_2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -690,228 +638,241 @@ static void MX_GPIO_Init(void)
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-/* USER CODE BEGIN MX_GPIO_Init_2 */
-/* USER CODE END MX_GPIO_Init_2 */
+  /* USER CODE BEGIN MX_GPIO_Init_2 */
+  /* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
-int __io_putchar(int ch) {
-    ITM_SendChar(ch);
-    return ch;
+int __io_putchar(int ch)
+{
+  ITM_SendChar(ch);
+  return ch;
 }
 // Fonction random
 // region[rgba(49, 120, 80, 0.2)]
-void randomGLC() {
-    const uint32_t a = 1664525;
-    const uint32_t c = 1013904223;
-    const uint32_t m = 2^32; // 2^32
+void randomGLC()
+{
+  const uint32_t a = 1664525;
+  const uint32_t c = 1013904223;
+  const uint32_t m = 0xFFFF; // 2^32
 
-    seed = (a * (seed) + c) % m;
+  seed = (a * (seed) + c) % m;
 }
 
 // endregion
 
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  if (htim->Instance == TIM2)
+  {
+    HAL_ADC_Start_DMA(&hadc, (uint32_t *)adcData, 2);
+    // printf("la data est : [%03x;%03x]\r\n",(unsigned int) adcData[1],(unsigned int)adcData[0]);
 
-void ledUpdate(uint16_t Data,TIM_HandleTypeDef *Timer, uint32_t Channel){
-	uint16_t pwmValue = Data * 0xFFFF / 0xFFF;
-	__HAL_TIM_SET_COMPARE(Timer,Channel,pwmValue);
+    ledUpdate(adcData[0], &htim9, TIM_CHANNEL_2);
+    ledUpdate(adcData[1], &htim11, TIM_CHANNEL_1);
+
+    randomGLC();
+
+    flagComptTemps++;
+    if (flagComptTemps == 200)
+    {
+      time_in_second = BCD_updateClock(time_in_second);
+      flagComptTemps = 0;
+    }
+  }
+}
+
+void ledUpdate(uint16_t data, TIM_HandleTypeDef *Timer, uint32_t Channel)
+{
+  // normaliser la valeur de l'ADC pour qu'elle varie de 0.0 à 1.0
+  double dataNorm = (double)data / 0xFFF;
+
+  double radian_part = 2 * PI * dataNorm;
+
+  // Calculer la valeur de la sinusoïde, ajustée pour varier de 0 à 1
+  double sinusValue = (sin(radian_part / 2));
+
+  // Ajuster pour la plage PWM complète
+  uint16_t pwmValue = 0xFFFF * sinusValue;
+
+  // Définir la valeur PWM
+  __HAL_TIM_SET_COMPARE(Timer, Channel, pwmValue);
 }
 
 // Gestion des boutons
 // region[rgba(0, 0, 255, 0.1)]
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
-	switch (GPIO_Pin){
-	case BTN_1_Pin:
-			if (HAL_GetTick() > (buttonElapsed[0] + DELAY_DEBOUNCE)){
-				printf("btn 1\r\n");
-				buttonElapsed[0] = HAL_GetTick();
-			}
-			break;
-	case BTN_2_Pin:
-			if (HAL_GetTick() > (buttonElapsed[1] + DELAY_DEBOUNCE)){
-				printf("btn 2\r\n");
-				buttonElapsed[1] = HAL_GetTick();
-			}
-			break;
-	case BTN_3_Pin:
-			if (HAL_GetTick() > (buttonElapsed[2] + DELAY_DEBOUNCE)){
-				printf("btn 3\r\n");
-				buttonElapsed[2] = HAL_GetTick();
-			}
-			break;
-	case BTN_4_Pin:
-			if (HAL_GetTick() > (buttonElapsed[3] + DELAY_DEBOUNCE)){
-				printf("btn 4\r\n");
-				buttonElapsed[3] = HAL_GetTick();
-			}
-			break;
-	default:
-		break;
-	}
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  switch (GPIO_Pin)
+  {
+  case BTN_1_Pin:
+    if (HAL_GetTick() > (buttonElapsed[0] + DELAY_DEBOUNCE))
+    {
+      printf("btn 1\r\n");
+      buttonElapsed[0] = HAL_GetTick();
+    }
+    break;
+  case BTN_2_Pin:
+    if (HAL_GetTick() > (buttonElapsed[1] + DELAY_DEBOUNCE))
+    {
+      printf("btn 2\r\n");
+      buttonElapsed[1] = HAL_GetTick();
+    }
+    break;
+  case BTN_3_Pin:
+    if (HAL_GetTick() > (buttonElapsed[2] + DELAY_DEBOUNCE))
+    {
+      printf("btn 3\r\n");
+      buttonElapsed[2] = HAL_GetTick();
+    }
+    break;
+  case BTN_4_Pin:
+    if (HAL_GetTick() > (buttonElapsed[3] + DELAY_DEBOUNCE))
+    {
+      printf("btn 4\r\n");
+      buttonElapsed[3] = HAL_GetTick();
+    }
+    break;
+  default:
+    break;
+  }
 }
 // endregion
 
 // Fonction BCD
 // region[rgba(255, 0, 0, 0.1)]
-void BCD_SendCommand(uint8_t addr, uint8_t data){
-	uint8_t mot[2];
-	mot[0] = addr;
-	mot[1] = data;
-	HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi1, mot, 2, SPI_TIMEOUT);
-	HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_SET);
+void BCD_SendCommand(uint8_t addr, uint8_t data)
+{
+  uint8_t mot[2] = {addr, data};
+  HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_RESET);
+  HAL_SPI_Transmit(&hspi1, mot, 2, SPI_TIMEOUT);
+  HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_SET);
 }
 
-void BCD_Init(uint16_t time_in_second){
+void BCD_Init(uint16_t time_in_second)
+{
 
-	BCD_SendCommand(0x0C,0x01); //shutdown pour reset/economie energie
-	BCD_SendCommand(0x09,0x0F); //decode permet utiliser tab predefinie au lieu seg/seg
-	BCD_SendCommand(0x0B,0x03); //scanlimit
-	BCD_SendCommand(0x0A,0x01); //intensity regle intensite
+  BCD_SendCommand(0x0C, 0x01); // shutdown pour reset/economie energie
+  BCD_SendCommand(0x09, 0x0F); // decode permet utiliser tab predefinie au lieu seg/seg
+  BCD_SendCommand(0x0B, 0x03); // scanlimit
+  BCD_SendCommand(0x0A, 0x01); // intensity regle intensite
 
-	for(int i=0; i<3; i++){
-		BCD_SendCommand(0xFF,0xFF);
-		HAL_Delay(50);
-		BCD_SendCommand(0xFF,0x00);
-		HAL_Delay(50);
-	}
+  for (int i = 0; i < 3; i++)
+  {
+    BCD_SendCommand(0xFF, 0xFF);
+    HAL_Delay(50);
+    BCD_SendCommand(0xFF, 0x00);
+    HAL_Delay(50);
+  }
 
-	//Modif
+  // Modif
 
-	uint8_t seconds = 0;
-	uint8_t diz_seconds = 0;
-	uint8_t minutes = 0;
-	uint8_t diz_minutes = 0;
+  uint8_t seconds = 0;
+  uint8_t diz_seconds = 0;
+  uint8_t minutes = 0;
+  uint8_t diz_minutes = 0;
 
-	minutes = time_in_second/60;
-	seconds = time_in_second%60;
+  minutes = time_in_second / 60;
+  seconds = time_in_second % 60;
 
-	if(minutes >= 10){
-		diz_minutes = minutes/10;
-		minutes = minutes%10;
-	}
-	if(seconds >= 10){
-		diz_seconds = seconds/10;
-		seconds = seconds%10;
-	}
+  if (minutes >= 10)
+  {
+    diz_minutes = minutes / 10;
+    minutes = minutes % 10;
+  }
+  if (seconds >= 10)
+  {
+    diz_seconds = seconds / 10;
+    seconds = seconds % 10;
+  }
 
-	BCD_SendCommand(0x01,diz_minutes);
-	BCD_SendCommand(0x02,minutes);
-	BCD_SendCommand(0x03,diz_seconds);
-	BCD_SendCommand(0x04,seconds);
-
+  BCD_SendCommand(0x01, diz_minutes);
+  BCD_SendCommand(0x02, minutes);
+  BCD_SendCommand(0x03, diz_seconds);
+  BCD_SendCommand(0x04, seconds);
 }
 
-int BCD_updateClock(uint16_t time_in_second){
+int BCD_updateClock(uint16_t time_in_second)
+{
 
-	if(time_in_second == 0){
-		return 0;
-	}
+  if (time_in_second == 0)
+  {
+    return 0;
+  }
 
-	time_in_second--;
+  time_in_second--;
 
-	uint8_t seconds = 0;
-	uint8_t diz_seconds = 0;
-	uint8_t minutes = 0;
-	uint8_t diz_minutes = 0;
+  uint8_t seconds = 0;
+  uint8_t diz_seconds = 0;
+  uint8_t minutes = 0;
+  uint8_t diz_minutes = 0;
 
-	minutes = time_in_second/60;
-	seconds = time_in_second%60;
+  minutes = time_in_second / 60;
+  seconds = time_in_second % 60;
 
-	if(seconds >= 10){
-		diz_seconds = seconds/10;
-		seconds = seconds%10;
-	}if(minutes >= 10){
-		diz_minutes = minutes/10;
-		minutes = minutes%10;
-	}
+  if (seconds >= 10)
+  {
+    diz_seconds = seconds / 10;
+    seconds = seconds % 10;
+  }
+  if (minutes >= 10)
+  {
+    diz_minutes = minutes / 10;
+    minutes = minutes % 10;
+  }
 
-	BCD_SendCommand(0x01,diz_minutes);
-	BCD_SendCommand(0x02,minutes);
-	BCD_SendCommand(0x03,diz_seconds);
-	BCD_SendCommand(0x04,seconds);
+  BCD_SendCommand(0x01, diz_minutes);
+  BCD_SendCommand(0x02, minutes);
+  BCD_SendCommand(0x03, diz_seconds);
+  BCD_SendCommand(0x04, seconds);
 
-	return time_in_second;
-
+  return time_in_second;
 }
 
-void BCD_SetDigit(uint8_t digit, uint8_t value){
-	if ((digit >= 1)&&(digit>=4)){
-		BCD_SendCommand(digit,value);
-	}
+void BCD_SetDigit(uint8_t digit, uint8_t value)
+{
+  if ((digit >= 1) && (digit >= 4))
+  {
+    BCD_SendCommand(digit, value);
+  }
 }
 // endregion
 
-
-void play(void){
-  uint8_t array[4] = {0xAA, 0x02, 0x00, 0xAC};
-  HAL_UART_Transmit(&huart4, array, sizeof(array), 1000);
+// Gestion du temps
+//  region[rgba(180, 100, 0, 0.1)]
+void secondToClockDisplay(uint16_t time_in_second)
+{
 }
-
-void play_track(uint8_t track_nb){
-  uint8_t array[6] = {0xAA, 0x07, 0x02, 0x00, track_nb, 0xB3+track_nb};
-  HAL_UART_Transmit(&huart4, array, sizeof(array), 1000);
-}
-
-//Gestion du temps
-// region[rgba(180, 100, 0, 0.1)]
-void secondToClockDisplay(uint16_t time_in_second){
-
-}
-
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-  if (htim->Instance == TIM2){
-    HAL_ADC_Start_DMA(&hadc, (uint32_t*)adcData, 2);
-    //printf("la data est : [%03x;%03x]\r\n",(unsigned int) adcData[1],(unsigned int)adcData[0]);
-
-    ledUpdate(adcData[0], &htim9,  TIM_CHANNEL_2);
-    ledUpdate(adcData[1], &htim11, TIM_CHANNEL_1);
-
-    randomGLC();
-    flag_bipbip++;
-  }
-
-  if (htim->Instance == TIM10){
-    time_in_second = BCD_updateClock(time_in_second);
-  }
-
-  if (htim->Instance == TIM3){
-    
-  }
-  
-}
-
 // endregion
 /* USER CODE END 4 */
 
 /**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
+ * @brief  This function is executed in case of error occurrence.
+ * @retval None
+ */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-	/* User can add his own implementation to report the HAL error return state */
-	__disable_irq();
-	while (1)
-	{
-	}
+  /* User can add his own implementation to report the HAL error return state */
+  __disable_irq();
+  while (1)
+  {
+  }
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
+ * @brief  Reports the name of the source file and the source line number
+ *         where the assert_param error has occurred.
+ * @param  file: pointer to the source file name
+ * @param  line: assert_param error line source number
+ * @retval None
+ */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
-	/* User can add his own implementation to report the file name and line number,
+  /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
