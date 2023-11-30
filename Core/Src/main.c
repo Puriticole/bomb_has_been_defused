@@ -78,8 +78,14 @@ bool seedInitialized = false;uint8_t second;
 uint8_t time_in_second = 20;
 uint8_t flag_bipbip = 0;
 uint8_t freqence_bipbip = 0;
-uint8_t buttonOrder[4] = {0,0,0,0};
+uint8_t buttonOrderPlant[4] = {0,0,0,0};
 uint8_t buttonNotAllPushed = 1;
+uint8_t buttonOrderDefuse[4] = {1,2,2,3};
+uint8_t flagButtonOk = 0;
+bool win = false;
+bool adcOk = false;
+bool buttonOk = false;
+
 
 /* USER CODE END PV */
 
@@ -97,7 +103,8 @@ static void MX_TIM9_Init(void);
 static void MX_TIM11_Init(void);
 static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
-void ledUpdate(uint16_t adcValue, TIM_HandleTypeDef *htim, uint32_t Channel);void BCD_SendCommand(uint8_t addr, uint8_t data);
+void ledUpdate(uint16_t adcValue, TIM_HandleTypeDef *htim, uint32_t Channel);
+void BCD_SendCommand(uint8_t addr, uint8_t data);
 void BCD_Init(uint16_t time_in_second);
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
 int BCD_updateClock(uint16_t time_in_second);
@@ -156,18 +163,22 @@ int main(void)
 
   play_track(SOUND_START_BOMB);
 
-  HAL_Delay(1500);
+  HAL_Delay(1500); //Délai pour jouer SOUND_START_BOMB en entier
 
-  BCD_Init(0);
+  BCD_Init(0); //Clignotement de l'afficheur et préparation a l'affichage
 
 while(buttonNotAllPushed){
   for(uint8_t i = 0; i<=3; i++){
-        BCD_SendCommand(i+1,buttonOrder[i]);
-        if(buttonOrder[3] != 0){
+        BCD_SendCommand(i+1,buttonOrderPlant[i]);
+        if(buttonOrderPlant[3] != 0){
           buttonNotAllPushed = 0;
         }
       }
 }
+
+  for(uint8_t i = 0; i<=3; i++){
+    buttonOrderPlant[i] = 0;
+  }
 
   play_track(BOMB_HAS_BEEN_PLANTED);
 
@@ -188,17 +199,44 @@ while(buttonNotAllPushed){
   /* USER CODE BEGIN WHILE */
 	while (time_in_second > 0)
 	{
+    if(win){
+      break;
+    }
+
+    if(adcOk && buttonOk){ //conditions de victoires
+      win = true;
+    }
+
+    //J'ai l'impression qu'il ne rentre pas dans l'expresison
+    if(adcData[0]>0xFF00 && adcData[1]>0xFF00){ //condition pour ADC
+      adcOk = true;
+      printf("adcOk\r\n");
+    }
+
+    for(uint8_t i = 0; i<=3; i++){
+      if(buttonOrderPlant[i] == buttonOrderDefuse[i]){
+        flagButtonOk++;
+        if(flagButtonOk == 4){
+          buttonOk = true;
+          printf("buttonOk\r\n");
+          break;
+        }
+      }else{
+        flagButtonOk = 0;
+        break;
+      }
+    }
+    
+    //Gestion de la fréquence du bipbip
     if(time_in_second>15){
       freqence_bipbip = 200;
     }if(15>= time_in_second){
-      freqence_bipbip = 90;
+      freqence_bipbip = 100;
     }if(10>= time_in_second){
-      freqence_bipbip = 60;
+      freqence_bipbip = 50;
     }if(5>time_in_second){
       freqence_bipbip = 30;
     }
-
-
 
     if(flag_bipbip>freqence_bipbip){
       play_track(BIP);
@@ -208,8 +246,13 @@ while(buttonNotAllPushed){
 
     /* USER CODE BEGIN 3 */
 	}
-	HAL_TIM_Base_Stop_IT(&htim2);
-	play_track(BOMB_EXPLODED);
+
+  if(win){
+    HAL_TIM_Base_Stop_IT(&htim10);
+    play_track(BOMB_DEFUSED);
+  }else{
+	 play_track(BOMB_EXPLODED);
+}
   /* USER CODE END 3 */
 }
 
@@ -737,8 +780,8 @@ void ledUpdate(uint16_t Data,TIM_HandleTypeDef *Timer, uint32_t Channel){
 
 void organise_Button_Order(uint8_t button_number){
   for(int i = 0; i<=3; i++){
-          if(buttonOrder[i] == 0){
-            buttonOrder[i] = button_number;
+          if(buttonOrderPlant[i] == 0){
+            buttonOrderPlant[i] = button_number;
             break;
           }
         }
@@ -888,7 +931,7 @@ void secondToClockDisplay(uint16_t time_in_second){
 
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-  if (htim->Instance == TIM2){
+  if (htim->Instance == TIM2){ //Timer de 5ms
     HAL_ADC_Start_DMA(&hadc, (uint32_t*)adcData, 2);
     //printf("la data est : [%03x;%03x]\r\n",(unsigned int) adcData[1],(unsigned int)adcData[0]);
 
@@ -899,7 +942,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
     flag_bipbip++;
   }
 
-  if (htim->Instance == TIM10){
+  if (htim->Instance == TIM10){ //Timer d'1s
     time_in_second = BCD_updateClock(time_in_second);
   }
 
