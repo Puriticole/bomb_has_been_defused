@@ -40,6 +40,7 @@
 #define SEED 1234
 
 //Define pour le MP3 - a utilise avec la fonction void play_track(uint8_t track_nb);
+//Corresponds à la position de la bande sons dans la mémoire de l'interface haut parleur
 #define BIP 1
 #define SOUND_START_BOMB 2
 #define BOMB_DEFUSED 3
@@ -77,6 +78,8 @@ bool seedInitialized = false;uint8_t second;
 uint8_t time_in_second = 20;
 uint8_t flag_bipbip = 0;
 uint8_t freqence_bipbip = 0;
+uint8_t buttonOrder[4] = {0,0,0,0};
+uint8_t buttonNotAllPushed = 1;
 
 /* USER CODE END PV */
 
@@ -96,12 +99,12 @@ static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
 void ledUpdate(uint16_t adcValue, TIM_HandleTypeDef *htim, uint32_t Channel);void BCD_SendCommand(uint8_t addr, uint8_t data);
 void BCD_Init(uint16_t time_in_second);
-void BCD_SetDigit(uint8_t digit, uint8_t value);
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
 int BCD_updateClock(uint16_t time_in_second);
 void secondToClockDisplay(uint16_t time_in_second);
 void play();
 void play_track(uint8_t track_nb);
+void organise_Button_Order(uint8_t button_number);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -149,9 +152,22 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
+  printf("Starting\r\n");
+
   play_track(SOUND_START_BOMB);
 
   HAL_Delay(1500);
+
+  BCD_Init(0);
+
+while(buttonNotAllPushed){
+  for(uint8_t i = 0; i<=3; i++){
+        BCD_SendCommand(i+1,buttonOrder[i]);
+        if(buttonOrder[3] != 0){
+          buttonNotAllPushed = 0;
+        }
+      }
+}
 
   play_track(BOMB_HAS_BEEN_PLANTED);
 
@@ -162,7 +178,6 @@ int main(void)
   HAL_TIM_PWM_Start(&htim11, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_2);
   HAL_TIM_Base_Start_IT(&htim3); //Timer bipbip
-  printf("Starting\r\n");
 
 
 
@@ -719,29 +734,47 @@ void ledUpdate(uint16_t Data,TIM_HandleTypeDef *Timer, uint32_t Channel){
 
 // Gestion des boutons
 // region[rgba(0, 0, 255, 0.1)]
+
+void organise_Button_Order(uint8_t button_number){
+  for(int i = 0; i<=3; i++){
+          if(buttonOrder[i] == 0){
+            buttonOrder[i] = button_number;
+            break;
+          }
+        }
+}
+
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	switch (GPIO_Pin){
 	case BTN_1_Pin:
 			if (HAL_GetTick() > (buttonElapsed[0] + DELAY_DEBOUNCE)){
 				printf("btn 1\r\n");
+        play_track(SOUND_PUSH_BUTTON);
+        organise_Button_Order(1);
 				buttonElapsed[0] = HAL_GetTick();
 			}
 			break;
 	case BTN_2_Pin:
 			if (HAL_GetTick() > (buttonElapsed[1] + DELAY_DEBOUNCE)){
 				printf("btn 2\r\n");
+        play_track(SOUND_PUSH_BUTTON);
+        organise_Button_Order(2);
 				buttonElapsed[1] = HAL_GetTick();
 			}
 			break;
 	case BTN_3_Pin:
 			if (HAL_GetTick() > (buttonElapsed[2] + DELAY_DEBOUNCE)){
 				printf("btn 3\r\n");
+        play_track(SOUND_PUSH_BUTTON);
+        organise_Button_Order(3);
 				buttonElapsed[2] = HAL_GetTick();
 			}
 			break;
 	case BTN_4_Pin:
 			if (HAL_GetTick() > (buttonElapsed[3] + DELAY_DEBOUNCE)){
 				printf("btn 4\r\n");
+        play_track(SOUND_PUSH_BUTTON);
+        organise_Button_Order(4);
 				buttonElapsed[3] = HAL_GetTick();
 			}
 			break;
@@ -833,12 +866,6 @@ int BCD_updateClock(uint16_t time_in_second){
 
 	return time_in_second;
 
-}
-
-void BCD_SetDigit(uint8_t digit, uint8_t value){
-	if ((digit >= 1)&&(digit>=4)){
-		BCD_SendCommand(digit,value);
-	}
 }
 // endregion
 
