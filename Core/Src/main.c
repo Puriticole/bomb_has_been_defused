@@ -179,7 +179,6 @@ int main(void)
   HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_2);
   HAL_TIM_Base_Start_IT(&htim3); // Timer bipbip
 
-  BCD_Init(0);
   play_track(SOUND_START_BOMB);
   /* USER CODE END 2 */
 
@@ -200,9 +199,9 @@ int main(void)
         HAL_Delay(1500);          // Délai pour jouer le son de la bombe plantée
         BCD_Init(time_in_second); // Clignotement de l'afficheur et préparation à l'affichage
         randomButtonSequence();   // Générer une nouvelle séquence si nécessaire
+        bombPlanted = false;
         etat = ETAT_JEU;
       }
-
       break;
     }
       // Jeu
@@ -872,7 +871,6 @@ void checkButtonOrderPlant(uint8_t pressedButton)
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-  play_track(SOUND_PUSH_BUTTON);
   switch (GPIO_Pin)
   {
   case BTN_1_Pin:
@@ -880,6 +878,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     {
       printf("btn 1\r\n");
       buttonElapsed[0] = HAL_GetTick();
+      play_track(SOUND_PUSH_BUTTON);
       if (etat == ETAT_INITIALISATION)
       {
         checkButtonOrderPlant(1);
@@ -895,6 +894,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     {
       printf("btn 2\r\n");
       buttonElapsed[1] = HAL_GetTick();
+      play_track(SOUND_PUSH_BUTTON);
       if (etat == ETAT_INITIALISATION)
       {
         checkButtonOrderPlant(2);
@@ -910,6 +910,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     {
       printf("btn 3\r\n");
       buttonElapsed[2] = HAL_GetTick();
+      play_track(SOUND_PUSH_BUTTON);
       if (etat == ETAT_INITIALISATION)
       {
         checkButtonOrderPlant(3);
@@ -925,6 +926,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     {
       printf("btn 4\r\n");
       buttonElapsed[3] = HAL_GetTick();
+      play_track(SOUND_PUSH_BUTTON);
       if (etat == ETAT_INITIALISATION)
       {
         checkButtonOrderPlant(4);
