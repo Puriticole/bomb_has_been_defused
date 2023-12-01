@@ -173,12 +173,12 @@ int main(void)
   /* USER CODE BEGIN 2 */
   printf("Starting\r\n");
 
-  HAL_TIM_Base_Start_IT(&htim10); // Timer décompteur
   HAL_TIM_Base_Start_IT(&htim2);
   HAL_TIM_PWM_Start(&htim11, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_2);
   HAL_TIM_Base_Start_IT(&htim3); // Timer bipbip
 
+  BCD_Init(0);
   play_track(SOUND_START_BOMB);
   /* USER CODE END 2 */
 
@@ -207,6 +207,7 @@ int main(void)
       // Jeu
     case ETAT_JEU:
     {
+      HAL_TIM_Base_Start_IT(&htim10); // Timer décompteur
       if (etat == ETAT_JEU)
       {
         printf("ETAT_JEU\r\n");
@@ -252,7 +253,7 @@ int main(void)
         printf("ETAT_VICTOIRE\r\n");
         HAL_TIM_Base_Stop_IT(&htim10);
         play_track(BOMB_DEFUSED);
-        etat = ETAT_DEFAITE;
+        etat = ETAT_INITIALISATION;
       }
       break;
     }
@@ -857,15 +858,41 @@ void checkButtonOrderPlant(uint8_t pressedButton)
   if (pressedButton == buttonOrderPlant[buttonPlantCurrentIndex])
   {
     buttonPlantCurrentIndex++;
+    HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, GPIO_PIN_SET);
+
+    if (buttonPlantCurrentIndex == 1)
+    {
+      BCD_SendCommand(0x04, 0x01);
+    }
+    if (buttonPlantCurrentIndex == 2)
+    {
+      BCD_SendCommand(0x04, 0x02);
+      BCD_SendCommand(0x03, 0x01);
+    }
+    if (buttonPlantCurrentIndex == 3)
+    {
+      BCD_SendCommand(0x04, 0x03);
+      BCD_SendCommand(0x03, 0x02);
+      BCD_SendCommand(0x02, 0x01);
+    }
+
     if (buttonPlantCurrentIndex == 4)
     {
-      bombPlanted = true;          // Flag indiquant que la bombe a été plantée
+      BCD_SendCommand(0x04, 0x04);
+      BCD_SendCommand(0x03, 0x03);
+      BCD_SendCommand(0x02, 0x02);
+      BCD_SendCommand(0x01, 0x01);
+      bombPlanted = true; // Flag indiquant que la bombe a été plantée
+
+      HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, GPIO_PIN_RESET);
       buttonPlantCurrentIndex = 0; // Réinitialiser pour la prochaine utilisation
     }
   }
   else
   {
     buttonPlantCurrentIndex = 0;
+
+    HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, GPIO_PIN_RESET);
   }
 }
 
