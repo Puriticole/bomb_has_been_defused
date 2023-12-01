@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include <stdbool.h>
+#include <math.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -33,11 +34,10 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define SPI_TIMEOUT 1000
-#define TIME_GAME 60
+#define TIME_GAME 60 // Temps pour defuser la bombe
 #define BUFFER_SIZE 10
-#define PI 3
+#define PI 3 // valeur exacte de pi
 #define DELAY_DEBOUNCE 300
-#define SEED 1234
 
 // Define pour le MP3 - a utilise avec la fonction void play_track(uint8_t track_nb);
 // Corresponds à la position de la bande sons dans la mémoire de l'interface haut parleur
@@ -47,7 +47,6 @@
 #define BOMB_EXPLODED 4
 #define SOUND_PUSH_BUTTON 5
 #define BOMB_HAS_BEEN_PLANTED 6
-
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -71,25 +70,25 @@ UART_HandleTypeDef huart4;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-// region[rgba(1, 70, 70, 0.3)]
-uint16_t adcData[2];
-uint32_t buttonElapsed[4] = {0, 0, 0, 0};
+// region[rgba(1, 70, 70, 0.15)]  <= colore la région (Colored Region extension for vscode)
+
 uint32_t seed;
-bool seedInitialized = false;
-uint8_t second;
+uint16_t adcData[2];
+volatile bool adcOk = false;
+
 uint8_t time_in_second = TIME_GAME;
 uint8_t flag_bipbip = 0;
 uint8_t freqence_bipbip = 0;
-uint8_t buttonOrderPlant[4] = {1, 2, 3, 4};
-uint8_t buttonPlantCurrentIndex = 0;
-bool bombPlanted = false;
-uint8_t buttonNotAllPushed = 1;
-uint8_t buttonOrderDefuse[4];
-uint8_t buttonCurrentIndex = 0;
 
-volatile bool adcOk = false;
+bool bombPlanted = false;
+uint8_t buttonPlantCurrentIndex = 0;
+uint8_t buttonOrderPlant[4] = {1, 2, 3, 4}; // Séquence de boutons pour planter la bombe
+
 volatile bool buttonOk = false;
-typedef enum
+uint8_t buttonCurrentIndex = 0;
+uint8_t buttonOrderDefuse[4];
+uint32_t buttonElapsed[4] = {0, 0, 0, 0}; // Tableau pour le debounce des boutons
+typedef enum                              // Enumération des états du jeu
 {
   ETAT_INITIALISATION,
   ETAT_JEU,
@@ -215,28 +214,20 @@ int main(void)
         {
           etat = ETAT_DEFAITE;
         }
-        if (buttonOk && adcOk)
+        if (buttonOk)
         {
-          etat = ETAT_VICTOIRE;
+          HAL_GPIO_TogglePin(LED_5_GPIO_Port, LED_5_Pin);
+          HAL_Delay(200);
+          if (adcOk)
+          {
+            etat = ETAT_VICTOIRE;
+          }
         }
-        // Gestion bip bip
-        if (time_in_second > 15)
-        {
-          freqence_bipbip = 200;
-        }
-        if (15 >= time_in_second)
-        {
-          freqence_bipbip = 100;
-        }
-        if (10 >= time_in_second)
-        {
-          freqence_bipbip = 50;
-        }
-        if (5 > time_in_second)
-        {
-          freqence_bipbip = 30;
-        }
-
+        // Gestion fréquence des bip bip
+        if (time_in_second > 15)  {freqence_bipbip = 200;}
+        if (time_in_second <= 15) {freqence_bipbip = 100;}
+        if (time_in_second <= 10) {freqence_bipbip = 50;}
+        if (time_in_second <= 5)   {freqence_bipbip = 30;}
         if (flag_bipbip > freqence_bipbip)
         {
           play_track(BIP);
@@ -263,6 +254,7 @@ int main(void)
       if (etat == ETAT_DEFAITE)
       {
         printf("ETAT_DEFAITE\r\n");
+        HAL_TIM_Base_Stop_IT(&htim10);
         play_track(BOMB_EXPLODED);
         etat = ETAT_INITIALISATION;
       }
@@ -779,26 +771,28 @@ int __io_putchar(int ch)
   ITM_SendChar(ch);
   return ch;
 }
+
 // Fonction random
-// region[rgba(49, 120, 80, 0.2)]
+// region[rgba(49, 120, 80, 0.12)]
+// Générateur linéaire congruentiel aléatoire
 void randomGLC()
 {
   const uint32_t a = 1664525;
   const uint32_t c = 1013904223;
-  const uint32_t m = 0xFFFF; // 2^32
+  const uint32_t m = 0xFFFF;
 
   seed = (a * (seed) + c) % m;
 }
 
+/**
+ * Mélange les valeurs de buttonOrderDefuse
+ */
 void randomButtonSequence()
 {
-  // Initialisez le tableau avec une séquence
   uint8_t numbers[] = {1, 2, 3, 4};
 
-  // Mélangez le tableau
   for (uint8_t i = 1; i < 4; i++)
   {
-    randomGLC(); // Mettez à jour la seed
     int j = (seed % (i + 1));
     uint8_t temp = numbers[i];
     numbers[i] = numbers[j];
@@ -814,45 +808,50 @@ void randomButtonSequence()
 // endregion
 
 // Gestion de l'ADC
-// region[rgba(0, 180, 0, 0.1)]
-void ledUpdate(uint16_t Data, TIM_HandleTypeDef *Timer, uint32_t Channel)
+// region[rgba(90, 130, 0, 0.1)]
+void ledUpdate(uint16_t data, TIM_HandleTypeDef *Timer, uint32_t Channel)
 {
-  uint16_t pwmValue = Data * 0xFFFF / 0xFFF;
+  // normaliser la valeur de l'ADC pour qu'elle varie de 0.0 à 1.0
+  double dataNorm = (double)data / 0xFFF;
+
+  double radian_part = 2 * PI * dataNorm;
+
+  // Calculer la valeur de la sinusoïde, ajustée pour varier de 0 à 1
+  double sinusValue = (sin(radian_part / 2));
+
+  // Ajuster pour la plage PWM complète
+  uint16_t pwmValue = 0xFFFF * sinusValue;
+
+  // Définir la valeur PWM
   __HAL_TIM_SET_COMPARE(Timer, Channel, pwmValue);
 }
 
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
-{
-  if (adcData[0] > 0xF500 && adcData[1] > 0xF500)
-  {
-    adcOk = true;
-    printf("adcOk\r\n");
-  }
-}
 // endregion
 
 // Gestion des boutons
 // region[rgba(0, 0, 255, 0.1)]
 
+// Vérifie si le bouton appuyé est dans la séquence de boutons pour désamorcer la bombe
 void checkUserInput(uint8_t userInput)
 {
-  if (userInput == buttonOrderDefuse[buttonCurrentIndex])
+  if (userInput == buttonOrderDefuse[buttonCurrentIndex]) // Vérifier si le bouton appuyé correspond
   {
     buttonCurrentIndex++;
     HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, GPIO_PIN_SET);
 
-    if (buttonCurrentIndex == 4)
+    if (buttonCurrentIndex == 4) // 4 itérations correctes = met le flag à true
     {
       buttonOk = true;
     }
   }
-  else
+  else // reset le compteur si le bouton appuyé ne correspond pas
   {
     buttonCurrentIndex = 0;
     HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, GPIO_PIN_RESET);
   }
 }
 
+// Vérifie si le bouton appuyé est dans la séquence de boutons pour planter la bombe
 void checkButtonOrderPlant(uint8_t pressedButton)
 {
   if (pressedButton == buttonOrderPlant[buttonPlantCurrentIndex])
@@ -882,6 +881,7 @@ void checkButtonOrderPlant(uint8_t pressedButton)
       BCD_SendCommand(0x03, 0x03);
       BCD_SendCommand(0x02, 0x02);
       BCD_SendCommand(0x01, 0x01);
+
       bombPlanted = true; // Flag indiquant que la bombe a été plantée
 
       HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, GPIO_PIN_RESET);
@@ -896,6 +896,7 @@ void checkButtonOrderPlant(uint8_t pressedButton)
   }
 }
 
+// interruption pour les boutons
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
   switch (GPIO_Pin)
@@ -971,25 +972,27 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 // endregion
 
 // Fonction BCD
-// region[rgba(255, 0, 0, 0.1)]
+// region[rgba(150, 30, 200, 0.08)]
+// Envoi de la commande à l'afficheur
 void BCD_SendCommand(uint8_t addr, uint8_t data)
 {
-  uint8_t mot[2];
-  mot[0] = addr;
-  mot[1] = data;
+  uint8_t mot[2] = {addr, data};
+
   HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_RESET);
   HAL_SPI_Transmit(&hspi1, mot, 2, SPI_TIMEOUT);
   HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_SET);
 }
 
+// Initialisation de l'affichage de l'horloge
 void BCD_Init(uint16_t time_in_second)
 {
 
   BCD_SendCommand(0x0C, 0x01); // shutdown pour reset/economie energie
   BCD_SendCommand(0x09, 0x0F); // decode permet utiliser tab predefinie au lieu seg/seg
   BCD_SendCommand(0x0B, 0x03); // scanlimit
-  BCD_SendCommand(0x0A, 0x01); // intensity regle intensite
+  BCD_SendCommand(0x0A, 0x01); // regle intensité lumineuse
 
+  // flash de l'afficheur
   for (int i = 0; i < 3; i++)
   {
     BCD_SendCommand(0xFF, 0xFF);
@@ -997,8 +1000,6 @@ void BCD_Init(uint16_t time_in_second)
     BCD_SendCommand(0xFF, 0x00);
     HAL_Delay(50);
   }
-
-  // Modif
 
   uint8_t seconds = 0;
   uint8_t diz_seconds = 0;
@@ -1025,6 +1026,7 @@ void BCD_Init(uint16_t time_in_second)
   BCD_SendCommand(0x04, seconds);
 }
 
+// Mise à jour de l'affichage de l'horloge
 int BCD_updateClock(uint16_t time_in_second)
 {
 
@@ -1063,12 +1065,14 @@ int BCD_updateClock(uint16_t time_in_second)
 }
 // endregion
 
+// Gestion du son
 void play(void)
 {
   uint8_t array[4] = {0xAA, 0x02, 0x00, 0xAC};
   HAL_UART_Transmit(&huart4, array, sizeof(array), 1000);
 }
 
+// Gestion des sons pré-enregistrés
 void play_track(uint8_t track_nb)
 {
   uint8_t array[6] = {0xAA, 0x07, 0x02, 0x00, track_nb, 0xB3 + track_nb};
@@ -1081,22 +1085,33 @@ void secondToClockDisplay(uint16_t time_in_second)
 {
 }
 
+// interruption timer
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-  if (htim->Instance == TIM2)
-  { // Timer de 5ms
+  if (htim->Instance == TIM2) // Timer de 5ms
+  {
+    // Démarrer la conversion ADC
     HAL_ADC_Start_DMA(&hadc, (uint32_t *)adcData, 2);
-    // printf("la data est : [%03x;%03x]\r\n",(unsigned int) adcData[1],(unsigned int)adcData[0]);
-
+    // update PWM des leds
     ledUpdate(adcData[0], &htim9, TIM_CHANNEL_2);
     ledUpdate(adcData[1], &htim11, TIM_CHANNEL_1);
 
+    // génération de la seed
     randomGLC();
+
+    // Gestion du bipbip
     flag_bipbip++;
+
+    // vérification valeur ADC
+    if ((adcData[0] > 0xF100) && (adcData[1] > 0xF100))
+    {
+      adcOk = true;
+      printf("adcOk\r\n");
+    }
   }
 
-  if (htim->Instance == TIM10)
-  { // Timer d'1s
+  if (htim->Instance == TIM10) // Timer de 1s
+  {
     time_in_second = BCD_updateClock(time_in_second);
   }
 
@@ -1104,7 +1119,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   {
   }
 }
-
 // endregion
 /* USER CODE END 4 */
 
