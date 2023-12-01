@@ -71,6 +71,7 @@ UART_HandleTypeDef huart4;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
+// region[rgba(1, 70, 70, 0.3)]
 uint16_t adcData[2];
 uint32_t buttonElapsed[4] = {0, 0, 0, 0};
 uint32_t seed;
@@ -79,11 +80,12 @@ uint8_t second;
 uint8_t time_in_second = 20;
 uint8_t flag_bipbip = 0;
 uint8_t freqence_bipbip = 0;
-uint8_t buttonOrderPlant[4] = {0, 0, 0, 0};
+uint8_t buttonOrderPlant[4] = {1, 2, 3, 4};
+uint8_t buttonPlantCurrentIndex = 0;
 uint8_t buttonNotAllPushed = 1;
-uint8_t buttonOrderDefuse[4] = {1, 2, 2, 3};
+uint8_t buttonOrderDefuse[4];
+uint8_t buttonCurrentIndex = 0;
 
-bool win = false;
 volatile bool adcOk = false;
 volatile bool buttonOk = false;
 typedef enum
@@ -94,6 +96,8 @@ typedef enum
   ETAT_DEFAITE
 } EtatJeu;
 
+EtatJeu etat = ETAT_INITIALISATION;
+// endregion
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -118,7 +122,8 @@ int BCD_updateClock(uint16_t time_in_second);
 void secondToClockDisplay(uint16_t time_in_second);
 void play();
 void play_track(uint8_t track_nb);
-void organise_Button_Order(uint8_t button_number);
+void randomButtonSequence();
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -167,20 +172,19 @@ int main(void)
   /* USER CODE BEGIN 2 */
   printf("Starting\r\n");
 
-  EtatJeu etat = ETAT_INITIALISATION;
-  bool conditionVictoire = false;
-
   HAL_TIM_Base_Start_IT(&htim10); // Timer décompteur
   HAL_TIM_Base_Start_IT(&htim2);
   HAL_TIM_PWM_Start(&htim11, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim9, TIM_CHANNEL_2);
   HAL_TIM_Base_Start_IT(&htim3); // Timer bipbip
 
-  BCD_Init(time_in_second);
+  BCD_Init(0);
+  play_track(SOUND_START_BOMB);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  // region[rgba(52, 73, 94, 0.1)]
   while (1)
   {
     switch (etat)
@@ -188,33 +192,9 @@ int main(void)
       // Initialisation
     case ETAT_INITIALISATION:
     {
-      if (etat == ETAT_INITIALISATION)
-      {
-        play_track(SOUND_START_BOMB);
-        printf("ETAT_INITIALISATION\r\n");
-        while (buttonNotAllPushed)
-        {
-          for (uint8_t i = 0; i <= 3; i++)
-          {
-            BCD_SendCommand(i + 1, buttonOrderPlant[i]);
-            if (buttonOrderPlant[3] != 0)
-            {
-              buttonNotAllPushed = 0;
-            }
-          }
-        }
 
-        for (uint8_t i = 0; i <= 3; i++)
-        {
-          buttonOrderPlant[i] = 0;
-        }
+      printf("ETAT_INITIALISATION\r\n");
 
-        play_track(BOMB_HAS_BEEN_PLANTED);
-        HAL_Delay(1500); // Délai pour jouer SOUND_START_BOMB en entier
-        BCD_Init(0);     // Clignotement de l'afficheur et préparation a l'affichage
-
-        etat = ETAT_JEU;
-      }
       break;
     }
       // Jeu
@@ -281,26 +261,9 @@ int main(void)
     }
     default:
       break;
-      for (uint8_t i = 0; i <= 3; i++)
-      {
-        if (buttonOrderPlant[i] == buttonOrderDefuse[i])
-        {
-          flagButtonOk++;
-          if (flagButtonOk == 4)
-          {
-            buttonOk = true;
-            printf("buttonOk\r\n");
-            break;
-          }
-        }
-        else
-        {
-          flagButtonOk = 0;
-          break;
-        }
-      }
     }
   }
+  // endregion
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
@@ -760,13 +723,23 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : B1_Pin BTN_4_Pin BTN_3_Pin */
-  GPIO_InitStruct.Pin = B1_Pin | BTN_4_Pin | BTN_3_Pin;
+  /*Configure GPIO pins : BTN_4_Pin BTN_3_Pin */
+  GPIO_InitStruct.Pin = BTN_4_Pin | BTN_3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : LED_5_Pin */
+  GPIO_InitStruct.Pin = LED_5_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(LED_5_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : SPI1_NSS_Pin */
   GPIO_InitStruct.Pin = SPI1_NSS_Pin;
@@ -809,20 +782,31 @@ void randomGLC()
   seed = (a * (seed) + c) % m;
 }
 
-uint8_t randomButtonSequence()
+void randomButtonSequence()
 {
-  uint8_t buttonOrderDefuse[4] = {1, 2, 2, 3};
-  for (uint8_t i = 0; i <= 3; i++)
+  // Initialisez le tableau avec une séquence
+  uint8_t numbers[] = {1, 2, 3, 4};
+
+  // Mélangez le tableau
+  for (uint8_t i = 1; i < 4; i++)
   {
-    int j = seed % i + 1;
-    uint8_t temp = buttonOrderDefuse[i];
-    buttonOrderDefuse[i] = buttonOrderDefuse[j];
-    buttonOrderDefuse[j] = temp;
+    randomGLC(); // Mettez à jour la seed
+    int j = (seed % (i + 1));
+    uint8_t temp = numbers[i];
+    numbers[i] = numbers[j];
+    numbers[j] = temp;
   }
-  return buttonOrderDefuse;
+
+  // Copiez les valeurs mélangées dans buttonOrderDefuse
+  for (uint8_t i = 0; i < 4; i++)
+  {
+    buttonOrderDefuse[i] = numbers[i];
+  }
 }
 // endregion
 
+// Gestion de l'ADC
+// region[rgba(0, 180, 0, 0.1)]
 void ledUpdate(uint16_t Data, TIM_HandleTypeDef *Timer, uint32_t Channel)
 {
   uint16_t pwmValue = Data * 0xFFFF / 0xFFF;
@@ -837,60 +821,114 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
     printf("adcOk\r\n");
   }
 }
+// endregion
 
 // Gestion des boutons
 // region[rgba(0, 0, 255, 0.1)]
 
-void organise_Button_Order(uint8_t button_number)
+void checkUserInput(uint8_t userInput)
 {
-  for (int i = 0; i <= 3; i++)
+  if (userInput == buttonOrderDefuse[buttonCurrentIndex])
   {
-    if (buttonOrderPlant[i] == 0)
+    buttonCurrentIndex++;
+    HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, GPIO_PIN_SET);
+
+    if (buttonCurrentIndex == 4)
     {
-      buttonOrderPlant[i] = button_number;
-      break;
+      buttonOk = true;
     }
+  }
+  else
+  {
+    buttonCurrentIndex = 0;
+    HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, GPIO_PIN_RESET);
+  }
+}
+
+void checkButtonOrderPlant(uint8_t pressedButton, EtatJeu *etat)
+{
+  if (pressedButton == buttonOrderPlant[buttonPlantCurrentIndex])
+  {
+    buttonPlantCurrentIndex++;
+    if (buttonPlantCurrentIndex == 4)
+    {
+      *etat = ETAT_JEU;            // Transition vers l'état de jeu
+      buttonPlantCurrentIndex = 0; // Réinitialiser pour la prochaine utilisation
+      play_track(BOMB_HAS_BEEN_PLANTED);
+      HAL_Delay(1500);          // Délai pour jouer le son de la bombe plantée
+      BCD_Init(time_in_second); // Clignotement de l'afficheur et préparation à l'affichage
+      randomButtonSequence();   // Générer une nouvelle séquence si nécessaire
+    }
+  }
+  else
+  {
+    buttonPlantCurrentIndex = 0;
   }
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
+  play_track(SOUND_PUSH_BUTTON);
   switch (GPIO_Pin)
   {
   case BTN_1_Pin:
     if (HAL_GetTick() > (buttonElapsed[0] + DELAY_DEBOUNCE))
     {
       printf("btn 1\r\n");
-      play_track(SOUND_PUSH_BUTTON);
-      organise_Button_Order(1);
       buttonElapsed[0] = HAL_GetTick();
+      if (etat == ETAT_INITIALISATION)
+      {
+        checkButtonOrderPlant(1, &etat);
+      }
+      else
+      {
+        checkUserInput(1);
+      }
     }
     break;
   case BTN_2_Pin:
     if (HAL_GetTick() > (buttonElapsed[1] + DELAY_DEBOUNCE))
     {
       printf("btn 2\r\n");
-      play_track(SOUND_PUSH_BUTTON);
-      organise_Button_Order(2);
       buttonElapsed[1] = HAL_GetTick();
+      if (etat == ETAT_INITIALISATION)
+      {
+        checkButtonOrderPlant(2, &etat);
+      }
+      else
+      {
+        checkUserInput(2);
+      }
     }
     break;
   case BTN_3_Pin:
     if (HAL_GetTick() > (buttonElapsed[2] + DELAY_DEBOUNCE))
     {
       printf("btn 3\r\n");
-      play_track(SOUND_PUSH_BUTTON);
-      organise_Button_Order(3);
       buttonElapsed[2] = HAL_GetTick();
+      if (etat == ETAT_INITIALISATION)
+      {
+        checkButtonOrderPlant(3, &etat);
+      }
+      else
+      {
+        checkUserInput(3);
+      }
     }
     break;
   case BTN_4_Pin:
     if (HAL_GetTick() > (buttonElapsed[3] + DELAY_DEBOUNCE))
     {
       printf("btn 4\r\n");
-      play_track(SOUND_PUSH_BUTTON);
-      organise_Button_Order(4);
       buttonElapsed[3] = HAL_GetTick();
+      if (etat == ETAT_INITIALISATION)
+      {
+        checkButtonOrderPlant(4, &etat);
+      }
+      else
+      {
+        checkUserInput(4);
+      }
     }
     break;
   default:
