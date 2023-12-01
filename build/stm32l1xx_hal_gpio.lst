@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
   29:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****   (+) Input mode
   30:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****   (+) Analog mode
   31:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****   (+) Output mode
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 2
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 2
 
 
   32:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****   (+) Alternate function mode
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
   86:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****        mapped to the EXTI line using HAL_NVIC_SetPriority() and enable it using
   87:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****        HAL_NVIC_EnableIRQ().
   88:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c **** 
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 3
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 3
 
 
   89:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****    (#) HAL_GPIO_DeInit allows to set register values to their reset value. It's also
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  143:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c **** /* Private variables ---------------------------------------------------------*/
  144:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c **** /* Private function prototypes -----------------------------------------------*/
  145:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c **** /* Exported functions ---------------------------------------------------------*/
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 4
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 4
 
 
  146:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c **** 
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  179:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****   assert_param(IS_GPIO_MODE(GPIO_Init->Mode));
   49              		.loc 1 179 3 view .LVU7
  180:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c **** 
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 5
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 5
 
 
  181:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****   /* Configure the port pins */
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  204:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****         CLEAR_BIT(temp, GPIO_OTYPER_OT_0 << position) ;
   80              		.loc 1 204 9 is_stmt 1 view .LVU20
   81 001e 25EA0C05 		bic	r5, r5, ip
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 6
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 6
 
 
   82              	.LVL7:
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  109 0048 24EA0E0E 		bic	lr, r4, lr
  110              	.LVL11:
  232:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****         SET_BIT(temp, (uint32_t)(GPIO_Init->Alternate) << (((uint32_t)position & 0x07U) * 4));
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 7
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 7
 
 
  111              		.loc 1 232 9 view .LVU30
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  142              		.loc 1 255 14 view .LVU40
  143 0074 A568     		ldr	r5, [r4, #8]
  144              	.LVL16:
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 8
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 8
 
 
  256:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****         CLEAR_BIT(temp, (uint32_t)iocurrent);
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  183              		.loc 1 271 14 is_stmt 0 view .LVU56
  184 00a6 6D68     		ldr	r5, [r5, #4]
  185              	.LVL22:
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 9
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 9
 
 
  272:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****         CLEAR_BIT(temp, (uint32_t)iocurrent);
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  225              	.LVL29:
  226              	.L3:
  287:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****       }
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 10
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 10
 
 
  288:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****     }
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  209:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****       {
  263              		.loc 1 209 28 view .LVU90
  264 00f8 04F00304 		and	r4, r4, #3
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 11
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 11
 
 
  209:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****       {
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  304 012a 4FF0030C 		mov	ip, #3
  305 012e 0CFA0EFC 		lsl	ip, ip, lr
  306 0132 24EA0C0C 		bic	ip, r4, ip
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 12
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 12
 
 
  307              	.LVL38:
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  346 016a 1B4C     		ldr	r4, .L25
  347 016c 54F82550 		ldr	r5, [r4, r5, lsl #2]
  348              	.LVL42:
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 13
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 13
 
 
  250:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****         SET_BIT(temp, (GPIO_GET_INDEX(GPIOx)) << (4 * (position & 0x03)));
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  392              		.loc 1 251 9 discriminator 6 view .LVU131
  393 01c4 0224     		movs	r4, #2
  394 01c6 4CE7     		b	.L7
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 14
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 14
 
 
  395              	.L16:
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  436              		.cfi_startproc
  437              		@ args = 0, pretend = 0, frame = 0
  438              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 15
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 15
 
 
  303:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****   uint32_t position = 0x00;
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  469              	.L30:
  470              		.loc 1 324 41 discriminator 28 view .LVU148
  471 0014 05FA0CF5 		lsl	r5, r5, ip
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 16
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 16
 
 
  472              		.loc 1 324 10 discriminator 28 view .LVU149
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  502 0056 24EA0202 		bic	r2, r4, r2
  503              	.LVL50:
  504              		.loc 1 348 7 is_stmt 0 view .LVU155
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 17
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 17
 
 
  505 005a 4260     		str	r2, [r0, #4]
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  323:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****       if (tmp == (GPIO_GET_INDEX(GPIOx) << (4 * (position & 0x03))))
  542              		.loc 1 323 29 view .LVU170
  543 0084 4FEA8C0C 		lsl	ip, ip, #2
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 18
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 18
 
 
  323:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****       if (tmp == (GPIO_GET_INDEX(GPIOx) << (4 * (position & 0x03))))
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  586              	.L35:
  324:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****       {
  587              		.loc 1 324 19 discriminator 6 view .LVU183
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 19
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 19
 
 
  588 00ce 0225     		movs	r5, #2
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  632              	.L45:
  355:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****   }
  356:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c **** }
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 20
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 20
 
 
  633              		.loc 1 356 1 is_stmt 0 view .LVU194
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  381:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c **** GPIO_PinState HAL_GPIO_ReadPin(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
  382:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c **** {
  665              		.loc 1 382 1 is_stmt 1 view -0
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 21
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 21
 
 
  666              		.cfi_startproc
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  401:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****   * @note   This function uses GPIOx_BSRR register to allow atomic read/modify
  402:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****   *         accesses. In this way, there is no risk of an IRQ occurring between
  403:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****   *         the read and the modify access.
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 22
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 22
 
 
  404:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****   * @param  GPIOx where x can be (A..G depending on device used) to select the GPIO peripheral for 
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  735              		.thumb_func
  737              	HAL_GPIO_TogglePin:
  738              	.LVL67:
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 23
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 23
 
 
  739              	.LFB76:
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  775              	.LFB77:
  448:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c **** 
  449:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c **** /**
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 24
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 24
 
 
  450:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c **** * @brief  Locks GPIO Pins configuration registers.
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  481:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****   /* Reset LCKx bit(s): LCKK='0' + LCK[15-0] */
  482:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****   GPIOx->LCKR = GPIO_Pin;
  799              		.loc 1 482 3 is_stmt 1 view .LVU238
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 25
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 25
 
 
  800              		.loc 1 482 15 is_stmt 0 view .LVU239
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  837              		.cfi_endproc
  838              	.LFE77:
  840              		.section	.text.HAL_GPIO_EXTI_Callback,"ax",%progbits
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 26
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 26
 
 
  841              		.align	1
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  868              	HAL_GPIO_EXTI_IRQHandler:
  869              	.LVL75:
  870              	.LFB78:
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 27
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 27
 
 
  505:Drivers/STM32L1xx_HAL_Driver/Src/stm32l1xx_hal_gpio.c ****   /* EXTI line interrupt detected */
@@ -1615,29 +1615,29 @@ ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 1
  914              		.file 5 "Drivers/CMSIS/Device/ST/STM32L1xx/Include/stm32l1xx.h"
  915              		.file 6 "Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_def.h"
  916              		.file 7 "Drivers/STM32L1xx_HAL_Driver/Inc/stm32l1xx_hal_gpio.h"
-ARM GAS  C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s 			page 28
+ARM GAS  C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s 			page 28
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32l1xx_hal_gpio.c
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:19     .text.HAL_GPIO_Init:00000000 $t
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:25     .text.HAL_GPIO_Init:00000000 HAL_GPIO_Init
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:418    .text.HAL_GPIO_Init:000001d8 $d
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:426    .text.HAL_GPIO_DeInit:00000000 $t
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:432    .text.HAL_GPIO_DeInit:00000000 HAL_GPIO_DeInit
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:649    .text.HAL_GPIO_DeInit:00000118 $d
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:656    .text.HAL_GPIO_ReadPin:00000000 $t
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:662    .text.HAL_GPIO_ReadPin:00000000 HAL_GPIO_ReadPin
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:695    .text.HAL_GPIO_WritePin:00000000 $t
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:701    .text.HAL_GPIO_WritePin:00000000 HAL_GPIO_WritePin
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:731    .text.HAL_GPIO_TogglePin:00000000 $t
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:737    .text.HAL_GPIO_TogglePin:00000000 HAL_GPIO_TogglePin
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:767    .text.HAL_GPIO_LockPin:00000000 $t
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:773    .text.HAL_GPIO_LockPin:00000000 HAL_GPIO_LockPin
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:841    .text.HAL_GPIO_EXTI_Callback:00000000 $t
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:847    .text.HAL_GPIO_EXTI_Callback:00000000 HAL_GPIO_EXTI_Callback
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:862    .text.HAL_GPIO_EXTI_IRQHandler:00000000 $t
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:868    .text.HAL_GPIO_EXTI_IRQHandler:00000000 HAL_GPIO_EXTI_IRQHandler
-C:\Users\cedri\AppData\Local\Temp\cc1OeDES.s:905    .text.HAL_GPIO_EXTI_IRQHandler:00000018 $d
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:19     .text.HAL_GPIO_Init:00000000 $t
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:25     .text.HAL_GPIO_Init:00000000 HAL_GPIO_Init
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:418    .text.HAL_GPIO_Init:000001d8 $d
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:426    .text.HAL_GPIO_DeInit:00000000 $t
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:432    .text.HAL_GPIO_DeInit:00000000 HAL_GPIO_DeInit
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:649    .text.HAL_GPIO_DeInit:00000118 $d
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:656    .text.HAL_GPIO_ReadPin:00000000 $t
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:662    .text.HAL_GPIO_ReadPin:00000000 HAL_GPIO_ReadPin
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:695    .text.HAL_GPIO_WritePin:00000000 $t
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:701    .text.HAL_GPIO_WritePin:00000000 HAL_GPIO_WritePin
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:731    .text.HAL_GPIO_TogglePin:00000000 $t
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:737    .text.HAL_GPIO_TogglePin:00000000 HAL_GPIO_TogglePin
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:767    .text.HAL_GPIO_LockPin:00000000 $t
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:773    .text.HAL_GPIO_LockPin:00000000 HAL_GPIO_LockPin
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:841    .text.HAL_GPIO_EXTI_Callback:00000000 $t
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:847    .text.HAL_GPIO_EXTI_Callback:00000000 HAL_GPIO_EXTI_Callback
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:862    .text.HAL_GPIO_EXTI_IRQHandler:00000000 $t
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:868    .text.HAL_GPIO_EXTI_IRQHandler:00000000 HAL_GPIO_EXTI_IRQHandler
+C:\Users\cedri\AppData\Local\Temp\ccwF3sQv.s:905    .text.HAL_GPIO_EXTI_IRQHandler:00000018 $d
 
 NO UNDEFINED SYMBOLS

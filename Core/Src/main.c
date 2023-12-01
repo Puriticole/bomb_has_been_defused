@@ -33,7 +33,7 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define SPI_TIMEOUT 1000
-#define TIME_GAME 20
+#define TIME_GAME 60
 #define BUFFER_SIZE 10
 #define PI 3
 #define DELAY_DEBOUNCE 300
@@ -77,11 +77,12 @@ uint32_t buttonElapsed[4] = {0, 0, 0, 0};
 uint32_t seed;
 bool seedInitialized = false;
 uint8_t second;
-uint8_t time_in_second = 20;
+uint8_t time_in_second = TIME_GAME;
 uint8_t flag_bipbip = 0;
 uint8_t freqence_bipbip = 0;
 uint8_t buttonOrderPlant[4] = {1, 2, 3, 4};
 uint8_t buttonPlantCurrentIndex = 0;
+bool bombPlanted = false;
 uint8_t buttonNotAllPushed = 1;
 uint8_t buttonOrderDefuse[4];
 uint8_t buttonCurrentIndex = 0;
@@ -192,8 +193,15 @@ int main(void)
       // Initialisation
     case ETAT_INITIALISATION:
     {
-
       printf("ETAT_INITIALISATION\r\n");
+      if (bombPlanted == true)
+      {
+        play_track(BOMB_HAS_BEEN_PLANTED);
+        HAL_Delay(1500);          // Délai pour jouer le son de la bombe plantée
+        BCD_Init(time_in_second); // Clignotement de l'afficheur et préparation à l'affichage
+        randomButtonSequence();   // Générer une nouvelle séquence si nécessaire
+        etat = ETAT_JEU;
+      }
 
       break;
     }
@@ -845,19 +853,15 @@ void checkUserInput(uint8_t userInput)
   }
 }
 
-void checkButtonOrderPlant(uint8_t pressedButton, EtatJeu *etat)
+void checkButtonOrderPlant(uint8_t pressedButton)
 {
   if (pressedButton == buttonOrderPlant[buttonPlantCurrentIndex])
   {
     buttonPlantCurrentIndex++;
     if (buttonPlantCurrentIndex == 4)
     {
-      *etat = ETAT_JEU;            // Transition vers l'état de jeu
+      bombPlanted = true;          // Flag indiquant que la bombe a été plantée
       buttonPlantCurrentIndex = 0; // Réinitialiser pour la prochaine utilisation
-      play_track(BOMB_HAS_BEEN_PLANTED);
-      HAL_Delay(1500);          // Délai pour jouer le son de la bombe plantée
-      BCD_Init(time_in_second); // Clignotement de l'afficheur et préparation à l'affichage
-      randomButtonSequence();   // Générer une nouvelle séquence si nécessaire
     }
   }
   else
@@ -878,7 +882,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
       buttonElapsed[0] = HAL_GetTick();
       if (etat == ETAT_INITIALISATION)
       {
-        checkButtonOrderPlant(1, &etat);
+        checkButtonOrderPlant(1);
       }
       else
       {
@@ -893,7 +897,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
       buttonElapsed[1] = HAL_GetTick();
       if (etat == ETAT_INITIALISATION)
       {
-        checkButtonOrderPlant(2, &etat);
+        checkButtonOrderPlant(2);
       }
       else
       {
@@ -908,7 +912,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
       buttonElapsed[2] = HAL_GetTick();
       if (etat == ETAT_INITIALISATION)
       {
-        checkButtonOrderPlant(3, &etat);
+        checkButtonOrderPlant(3);
       }
       else
       {
@@ -923,7 +927,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
       buttonElapsed[3] = HAL_GetTick();
       if (etat == ETAT_INITIALISATION)
       {
-        checkButtonOrderPlant(4, &etat);
+        checkButtonOrderPlant(4);
       }
       else
       {
